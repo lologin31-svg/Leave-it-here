@@ -2,111 +2,533 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Anonymous Message</title>
 
 <style>
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  background:#f5f5f7;
-  color:#111;
-  font-family:Arial,Helvetica,sans-serif;
+body {
+  margin: 0;
+  background: #f5f5f7;
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.page{
-  min-height:100vh;
-  padding:25px 14px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.page {
+  min-height: 100vh;
+  padding: 25px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.card{
-  width:100%;
-  max-width:560px;
-  background:#fff;
-  border-radius:24px;
-  padding:28px 20px;
-  box-shadow:0 10px 30px rgba(0,0,0,.07);
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.07);
 }
 
-h1{
-  margin:0 0 8px;
-  font-size:32px;
+h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
 }
 
-.subtitle{
-  margin:0 0 24px;
-  color:#777;
-  font-size:15px;
+.subtitle {
+  margin: 0 0 24px;
+  color: #777;
+  font-size: 15px;
 }
 
 textarea,
-input{
-  width:100%;
-  border:1px solid #ddd;
-  border-radius:14px;
-  padding:14px;
-  font-size:16px;
-  font-family:Arial,Helvetica,sans-serif;
-  outline:none;
+input {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  outline: none;
 }
 
-textarea{
-  height:140px;
-  resize:none;
+textarea {
+  height: 140px;
+  resize: none;
 }
 
-input{
-  height:52px;
-  margin-top:12px;
+input {
+  height: 52px;
+  margin-top: 12px;
 }
 
 textarea:focus,
-input:focus{
-  border-color:#999;
+input:focus {
+  border-color: #999;
 }
 
-button{
-  width:100%;
-  height:52px;
-  margin-top:12px;
-  border:0;
-  border-radius:14px;
-  background:#111;
-  color:#fff;
-  font-size:15px;
-  font-weight:600;
+button {
+  width: 100%;
+  height: 52px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 14px;
+  background: #111;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-button:disabled{
-  opacity:.6;
+button:disabled {
+  opacity: 0.6;
 }
 
-#status{
-  text-align:center;
-  margin-top:14px;
-  font-size:14px;
+#status {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 14px;
 }
 
-.error{
-  color:#d00000;
-  font-weight:600;
+.error {
+  color: #d00000;
+  font-weight: 600;
 }
 
-.success{
-  color:#111;
+.successBox {
+  display: none;
 }
 
-.successBox{
-  display:none;
+.successTitle {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.successTitle{
-  font-size:25px;
- 
+.info {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.linkBox {
+  display: flex;
+  gap: 8px;
+}
+
+.linkInput {
+  margin: 0;
+  flex: 1;
+  background: #f5f5f5;
+  font-size: 12px;
+}
+
+.copyButton {
+  width: 105px;
+  height: 52px;
+  margin: 0;
+}
+
+.privateNote {
+  margin-top: 14px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 12px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.openButton {
+  margin-top: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="card">
+
+    <!-- MAIN SEND SECTION -->
+
+    <div id="sendSection">
+
+      <h1>💌 Anonymous Message</h1>
+
+      <p class="subtitle">
+        Send me a message anonymously.
+      </p>
+
+      <textarea
+        id="message"
+        placeholder="Write your message..."
+      ></textarea>
+
+      <input
+        id="name"
+        type="text"
+        maxlength="50"
+        placeholder="Mysterious Name"
+      >
+
+      <button
+        id="sendButton"
+        type="button"
+        onclick="sendMessage()"
+      >
+        Send Message
+      </button>
+
+      <div id="status"></div>
+
+    </div>
+
+
+    <!-- SUCCESS SECTION -->
+
+    <div id="successSection" class="successBox">
+
+      <div class="successTitle">
+        ✓ Message sent!
+      </div>
+
+      <div class="info">
+        Your anonymous message has been sent successfully.
+      </div>
+
+      <div class="info">
+        🔗 <b>Save your private link</b>
+      </div>
+
+      <div class="linkBox">
+
+        <input
+          id="conversationLink"
+          class="linkInput"
+          type="text"
+          readonly
+        >
+
+        <button
+          class="copyButton"
+          type="button"
+          onclick="copyLink()"
+        >
+          Copy
+        </button>
+
+      </div>
+
+      <div class="privateNote">
+        🔒 Keep this link private.
+        Anyone with the link can access this conversation.
+      </div>
+
+      <button
+        class="openButton"
+        type="button"
+        onclick="openConversation()"
+      >
+        Open Private Conversation
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================
+   SUPABASE
+===================================== */
+
+const SUPABASE_URL =
+"https://merkpcjthrcmjjtlnxkb.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
+
+
+/* =====================================
+   GENERATE RANDOM PRIVATE TOKEN
+===================================== */
+
+function generateToken() {
+
+  const array = new Uint8Array(32);
+
+  window.crypto.getRandomValues(array);
+
+  let token = "";
+
+  for (let i = 0; i < array.length; i++) {
+
+    token += array[i]
+      .toString(16)
+      .padStart(2, "0");
+
+  }
+
+  return token;
+}
+
+
+/* =====================================
+   SEND MESSAGE
+===================================== */
+
+async function sendMessage() {
+
+  const messageInput =
+    document.getElementById("message");
+
+  const nameInput =
+    document.getElementById("name");
+
+  const sendButton =
+    document.getElementById("sendButton");
+
+  const status =
+    document.getElementById("status");
+
+
+  const message =
+    messageInput.value.trim();
+
+  const name =
+    nameInput.value.trim() || "Mysterious Name";
+
+
+  /* Check message */
+
+  if (!message) {
+
+    status.className = "error";
+
+    status.innerText =
+      "Please write a message.";
+
+    return;
+  }
+
+
+  /* Disable button */
+
+  sendButton.disabled = true;
+
+  sendButton.innerText =
+    "Sending...";
+
+  status.className = "";
+
+  status.innerText = "";
+
+
+  try {
+
+    /* Create private token */
+
+    const token =
+      generateToken();
+
+
+    /* Send to Supabase */
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/rpc/create_conversation",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_KEY
+          },
+
+          body: JSON.stringify({
+            p_name: name,
+            p_message: message,
+            p_token: token
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      "Supabase response:",
+      data
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.message ||
+        data.error ||
+        data.hint ||
+        "Message could not be sent."
+      );
+
+    }
+
+
+    /* =================================
+       IMPORTANT PRIVATE LINK
+    ================================= */
+
+    const conversationURL =
+      window.location.origin +
+      "/anonymous-website/conversation.html?token=" +
+      encodeURIComponent(token);
+
+
+    console.log(
+      "Private conversation URL:",
+      conversationURL
+    );
+
+
+    /* Hide send section */
+
+    document.getElementById(
+      "sendSection"
+    ).style.display = "none";
+
+
+    /* Show success section */
+
+    document.getElementById(
+      "successSection"
+    ).style.display = "block";
+
+
+    /* Put link into box */
+
+    document.getElementById(
+      "conversationLink"
+    ).value =
+      conversationURL;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.className =
+      "error";
+
+    status.innerText =
+      "❌ " + error.message;
+
+    sendButton.disabled =
+      false;
+
+    sendButton.innerText =
+      "Send Message";
+  }
+
+}
+
+
+/* =====================================
+   COPY PRIVATE LINK
+===================================== */
+
+async function copyLink() {
+
+  const input =
+    document.getElementById(
+      "conversationLink"
+    );
+
+  const button =
+    document.querySelector(
+      ".copyButton"
+    );
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+      input.value
+    );
+
+    button.innerText =
+      "Copied ✓";
+
+
+    setTimeout(function() {
+
+      button.innerText =
+        "Copy";
+
+    }, 2000);
+
+
+  } catch (error) {
+
+    input.select();
+
+    input.setSelectionRange(
+      0,
+      99999
+    );
+
+    document.execCommand("copy");
+
+    button.innerText =
+      "Copied ✓";
+
+
+    setTimeout(function() {
+
+      button.innerText =
+        "Copy";
+
+    }, 2000);
+
+  }
+
+}
+
+
+/* =====================================
+   OPEN PRIVATE CONVERSATION
+===================================== */
+
+function openConversation() {
+
+  const link =
+    document.getElementById(
+      "conversationLink"
+    ).value;
+
+  window.location.href =
+    link;
+}
+
+</script>
+
+</body>
+  </html>
