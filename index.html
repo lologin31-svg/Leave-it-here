@@ -1,732 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Anonymous Message</title>
 
 <style>
-
 *{
-    box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 body{
-    margin:0;
-    min-height:100vh;
-    background:#f4f4f5;
-    color:#111;
-    font-family:Arial,Helvetica,sans-serif;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    padding:14px;
+  margin:0;
+  background:#f5f5f7;
+  color:#111;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-/* MAIN CARD */
+.page{
+  min-height:100vh;
+  padding:25px 14px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
 .card{
-    width:100%;
-    max-width:430px;
-
-    background:#fff;
-
-    border-radius:24px;
-
-    padding:25px 22px 22px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.07);
+  width:100%;
+  max-width:560px;
+  background:#fff;
+  border-radius:24px;
+  padding:28px 20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.07);
 }
 
-
-/* TITLE */
-
-.title{
-    margin:0;
-
-    font-size:32px;
-
-    line-height:1.05;
-
-    letter-spacing:-1.3px;
-
-    font-weight:700;
+h1{
+  margin:0 0 8px;
+  font-size:32px;
 }
-
-
-/* SUBTITLE */
 
 .subtitle{
-    margin:11px 0 20px;
-
-    color:#777;
-
-    font-size:15px;
-
-    line-height:1.4;
+  margin:0 0 24px;
+  color:#777;
+  font-size:15px;
 }
-
-
-/* INPUTS */
 
 textarea,
 input{
-    width:100%;
-
-    border:1px solid #dedede;
-
-    background:#fff;
-
-    border-radius:14px;
-
-    padding:14px 15px;
-
-    font-family:Arial,Helvetica,sans-serif;
-
-    font-size:16px;
-
-    outline:none;
+  width:100%;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:14px;
+  font-size:16px;
+  font-family:Arial,Helvetica,sans-serif;
+  outline:none;
 }
 
 textarea{
-    height:115px;
-
-    resize:none;
+  height:140px;
+  resize:none;
 }
 
 input{
-    height:51px;
-
-    margin-top:9px;
+  height:52px;
+  margin-top:12px;
 }
 
 textarea:focus,
 input:focus{
-    border-color:#999;
+  border-color:#999;
 }
-
-
-/* SEND BUTTON */
 
 button{
-    width:100%;
-
-    height:51px;
-
-    margin-top:11px;
-
-    border:0;
-
-    border-radius:14px;
-
-    background:#111;
-
-    color:#fff;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-}
-
-button:active{
-    transform:scale(.99);
+  width:100%;
+  height:52px;
+  margin-top:12px;
+  border:0;
+  border-radius:14px;
+  background:#111;
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
 }
 
 button:disabled{
-    opacity:.6;
+  opacity:.6;
 }
-
-
-/* STATUS */
 
 #status{
-    margin-top:14px;
-
-    text-align:center;
-
-    font-size:15px;
-
-    line-height:1.4;
+  text-align:center;
+  margin-top:14px;
+  font-size:14px;
 }
-
-
-/* SUCCESS */
-
-.success-title{
-    font-size:16px;
-
-    font-weight:600;
-
-    margin-bottom:9px;
-}
-
-
-/* PRIVATE INFO */
-
-.private-info{
-
-    background:#f5f5f5;
-
-    border-radius:14px;
-
-    padding:13px 14px;
-
-    text-align:left;
-
-    margin-top:8px;
-}
-
-.info-title{
-
-    font-size:15px;
-
-    font-weight:700;
-
-    margin-bottom:5px;
-}
-
-.info-text{
-
-    color:#666;
-
-    font-size:13px;
-
-    line-height:1.4;
-}
-
-.warning{
-
-    color:#777;
-
-    font-size:12px;
-
-    line-height:1.4;
-
-    margin-top:7px;
-}
-
-
-/* PRIVATE LINK */
-
-.linkbox{
-
-    margin-top:10px;
-}
-
-.linkbox input{
-
-    margin-top:0;
-
-    height:46px;
-
-    font-size:12px;
-
-    color:#777;
-
-    text-overflow:ellipsis;
-}
-
-
-/* COPY BUTTON */
-
-.copy{
-
-    height:46px;
-
-    margin-top:7px;
-
-    font-size:15px;
-}
-
-
-/* ERROR */
 
 .error{
-
-    color:#d00000;
-
-    font-weight:600;
+  color:#d00000;
+  font-weight:600;
 }
 
-
-/* SMALL SCREEN */
-
-@media(max-height:700px){
-
-    body{
-
-        align-items:flex-start;
-
-        padding-top:10px;
-    }
-
-    .card{
-
-        padding:21px 19px;
-    }
-
-    .title{
-
-        font-size:29px;
-    }
-
-    .subtitle{
-
-        margin:8px 0 15px;
-    }
-
-    textarea{
-
-        height:100px;
-    }
-
+.success{
+  color:#111;
 }
 
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="card">
-
-
-    <h1 class="title">
-        💌 Anonymous<br>
-        Message
-    </h1>
-
-
-    <p class="subtitle">
-        Send me a message anonymously.
-    </p>
-
-
-    <textarea
-        id="message"
-        placeholder="Write your message..."
-    ></textarea>
-
-
-    <input
-        id="name"
-        type="text"
-        placeholder="Mysterious Name"
-        maxlength="80"
-    >
-
-
-    <button
-        id="sendButton"
-        onclick="sendMessage()"
-    >
-        Send Message
-    </button>
-
-
-    <div id="status"></div>
-
-
-</div>
-
-
-
-<script>
-
-
-/* SUPABASE */
-
-const SUPABASE_URL =
-"https://merkpcjthrcmjjtlnxkb.supabase.co";
-
-
-const SUPABASE_KEY =
-"sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
-
-
-
-/* CREATE PRIVATE TOKEN */
-
-function createToken(){
-
-    const bytes =
-    new Uint8Array(32);
-
-    crypto.getRandomValues(bytes);
-
-    return Array.from(bytes)
-        .map(function(byte){
-
-            return byte
-                .toString(16)
-                .padStart(2,"0");
-
-        })
-        .join("");
-
+.successBox{
+  display:none;
 }
 
-
-
-/* SEND MESSAGE */
-
-async function sendMessage(){
-
-
-    const message =
-    document
-    .getElementById("message")
-    .value
-    .trim();
-
-
-    const name =
-    document
-    .getElementById("name")
-    .value
-    .trim();
-
-
-    const status =
-    document
-    .getElementById("status");
-
-
-    const button =
-    document
-    .getElementById("sendButton");
-
-
-
-    /* EMPTY MESSAGE */
-
-    if(!message){
-
-        status.className="error";
-
-        status.innerText =
-        "❌ Please write a message.";
-
-        return;
-
-    }
-
-
-
-    /* LOADING */
-
-    button.disabled=true;
-
-    button.innerText="Sending...";
-
-    status.innerHTML="";
-
-
-
-    /* TOKEN */
-
-    const token =
-    createToken();
-
-
-
-    try{
-
-
-        /* SUPABASE REQUEST */
-
-        const response =
-        await fetch(
-
-            SUPABASE_URL +
-            "/rest/v1/rpc/create_conversation",
-
-            {
-
-                method:"POST",
-
-                headers:{
-
-                    "Content-Type":
-                    "application/json",
-
-                    "apikey":
-                    SUPABASE_KEY,
-
-                    "Authorization":
-                    "Bearer " +
-                    SUPABASE_KEY
-
-                },
-
-                body:JSON.stringify({
-
-                    p_name:
-                    name || "Anonymous",
-
-                    p_message:
-                    message,
-
-                    p_token:
-                    token
-
-                })
-
-            }
-
-        );
-
-
-
-        const data =
-        await response.json();
-
-
-
-        /* ERROR */
-
-        if(!response.ok){
-
-            throw new Error(
-
-                data.message ||
-
-                data.error ||
-
-                data.hint ||
-
-                "Unable to send message."
-
-            );
-
-        }
-
-
-
-        /* CREATE PRIVATE URL */
-
-        const conversationURL =
-
-            window.location.origin +
-
-            window.location.pathname
-            .replace(
-                "index.html",
-                "conversation.html"
-            ) +
-
-            "?token=" +
-
-            encodeURIComponent(token);
-
-
-
-        /* SUCCESS */
-
-        status.className="";
-
-
-        status.innerHTML = `
-
-            <div class="success-title">
-                ✓ Message sent!
-            </div>
-
-
-            <div class="private-info">
-
-                <div class="info-title">
-                    🔗 Save your private link
-                </div>
-
-
-                <div class="info-text">
-
-                    Want to see replies or continue
-                    the conversation later?
-
-                    Copy this link and open it in
-                    any browser.
-
-                </div>
-
-
-                <div class="warning">
-
-                    🔒 Keep this link private.
-                    Anyone with the link can access
-                    this conversation.
-
-                </div>
-
-            </div>
-
-        `;
-
-
-
-        /* LINK BOX */
-
-        const linkBox =
-        document.createElement("div");
-
-
-        linkBox.className =
-        "linkbox";
-
-
-
-        /* LINK */
-
-        const linkInput =
-        document.createElement("input");
-
-
-        linkInput.value =
-        conversationURL;
-
-
-        linkInput.readOnly=true;
-
-
-
-        /* COPY BUTTON */
-
-        const copyButton =
-        document.createElement("button");
-
-
-        copyButton.className =
-        "copy";
-
-
-        copyButton.innerText =
-        "Copy Private Link";
-
-
-
-        /* COPY */
-
-        copyButton.onclick =
-        async function(){
-
-
-            try{
-
-                await navigator
-                    .clipboard
-                    .writeText(
-                        conversationURL
-                    );
-
-            }
-
-            catch(error){
-
-                linkInput.select();
-
-                document.execCommand(
-                    "copy"
-                );
-
-            }
-
-
-            copyButton.innerText =
-            "✓ Link Copied";
-
-
-
-            setTimeout(
-                function(){
-
-                    copyButton.innerText =
-                    "Copy Private Link";
-
-                },
-                2000
-            );
-
-        };
-
-
-
-        /* ADD */
-
-        linkBox.appendChild(
-            linkInput
-        );
-
-
-        linkBox.appendChild(
-            copyButton
-        );
-
-
-        status.appendChild(
-            linkBox
-        );
-
-
-
-        /* CLEAR */
-
-        document
-        .getElementById("message")
-        .value="";
-
-
-        document
-        .getElementById("name")
-        .value="";
-
-
-
-    }
-
-
-    catch(error){
-
-
-        console.error(error);
-
-
-        status.className =
-        "error";
-
-
-        status.innerText =
-        "❌ " + error.message;
-
-    }
-
-
-    finally{
-
-
-        button.disabled=false;
-
-
-        button.innerText =
-        "Send Message";
-
-    }
-
-}
-
-
-</script>
-
-
-</body>
-
-</html>
+.successTitle{
+  font-size:25px;
+ 
