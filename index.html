@@ -1,247 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Anonymous Message</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
+<title>Anonymous Inbox</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  background: #f5f5f7;
-  color: #111;
-  font-family: Arial, Helvetica, sans-serif;
+body{
+  margin:0;
+  background:#f5f5f7;
+  color:#111;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-.page {
-  min-height: 100vh;
-  padding: 25px 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.page{
+  min-height:100vh;
+  padding:35px 15px;
 }
 
-.card {
-  width: 100%;
-  max-width: 560px;
-  background: #fff;
-  border-radius: 24px;
-  padding: 28px 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+.container{
+  width:100%;
+  max-width:750px;
+  margin:auto;
 }
 
-h1 {
-  margin: 0 0 8px;
-  font-size: 32px;
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
 }
 
-.subtitle {
-  margin: 0 0 24px;
-  color: #777;
-  font-size: 15px;
+h1{
+  margin:0;
+  font-size:42px;
 }
 
-textarea,
-input {
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 16px;
-  font-family: Arial, Helvetica, sans-serif;
-  outline: none;
+.logout{
+  width:auto;
+  height:auto;
+  padding:13px 20px;
+  margin:0;
+  background:#111;
+  color:#fff;
+  border:0;
+  border-radius:12px;
+  font-weight:bold;
 }
 
-textarea {
-  height: 140px;
-  resize: none;
+.sectionTitle{
+  font-size:24px;
+  margin:30px 0 12px;
 }
 
-input {
-  height: 52px;
-  margin-top: 12px;
+.card{
+  background:#fff;
+  border-radius:22px;
+  padding:22px;
+  margin:14px 0;
+  box-shadow:0 8px 25px rgba(0,0,0,.06);
+  cursor:pointer;
 }
 
-textarea:focus,
-input:focus {
-  border-color: #999;
+.name{
+  font-size:20px;
+  font-weight:bold;
 }
 
-button {
-  width: 100%;
-  height: 52px;
-  margin-top: 12px;
-  border: 0;
-  border-radius: 14px;
-  background: #111;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
+.last{
+  color:#666;
+  margin-top:8px;
+  font-size:17px;
 }
 
-button:disabled {
-  opacity: 0.6;
+.conversation{
+  margin-top:25px;
+  background:#fff;
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 8px 25px rgba(0,0,0,.06);
 }
 
-#status {
-  text-align: center;
-  margin-top: 14px;
-  font-size: 14px;
+.msg{
+  background:#ededee;
+  border-radius:18px;
+  padding:17px;
+  margin:12px 0;
+  word-break:break-word;
+  white-space:pre-wrap;
 }
 
-.error {
-  color: #d00000;
-  font-weight: 600;
+.msg.owner{
+  background:#111;
+  color:#fff;
 }
 
-.successBox {
-  display: none;
+.msgText{
+  font-size:17px;
+  line-height:1.45;
 }
 
-.successTitle {
-  font-size: 25px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.msgTime{
+  margin-top:9px;
+  font-size:11px;
+  color:#888;
 }
 
-.info {
-  color: #666;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 15px;
+.msg.owner .msgTime{
+  color:#aaa;
 }
 
-.linkBox {
-  display: flex;
-  gap: 8px;
+textarea{
+  width:100%;
+  min-height:140px;
+  margin-top:20px;
+  padding:17px;
+  border:1px solid #ddd;
+  border-radius:16px;
+  font-size:18px;
+  resize:vertical;
+  font-family:Arial,Helvetica,sans-serif;
+  outline:none;
 }
 
-.linkInput {
-  margin: 0;
-  flex: 1;
-  background: #f5f5f5;
-  font-size: 12px;
+textarea:focus{
+  border-color:#999;
 }
 
-.copyButton {
-  width: 105px;
-  height: 52px;
-  margin: 0;
+.reply{
+  width:100%;
+  height:65px;
+  margin-top:12px;
+  background:#111;
+  color:#fff;
+  border:0;
+  border-radius:15px;
+  font-size:18px;
+  font-weight:bold;
 }
 
-.privateNote {
-  margin-top: 14px;
-  padding: 12px;
-  background: #f5f5f5;
-  border-radius: 12px;
-  color: #666;
-  font-size: 13px;
-  line-height: 1.4;
+.reply:disabled{
+  opacity:.6;
 }
 
-.openButton {
-  margin-top: 12px;
+.loading{
+  color:#777;
+  text-align:center;
+  padding:20px;
 }
+
+.error{
+  color:#d00000;
+  font-weight:bold;
+}
+
+.visitsCard{
+  background:#fff;
+  border-radius:22px;
+  padding:22px;
+  margin:14px 0;
+  box-shadow:0 8px 25px rgba(0,0,0,.06);
+}
+
+.visit{
+  padding:15px 0;
+  border-bottom:1px solid #eee;
+  font-size:16px;
+}
+
+.visit:last-child{
+  border-bottom:0;
+}
+
+.visitTime{
+  font-weight:bold;
+}
+
+.empty{
+  color:#777;
+}
+
 </style>
+
 </head>
+
 
 <body>
 
 <div class="page">
 
-  <div class="card">
-
-    <!-- MAIN SEND SECTION -->
-
-    <div id="sendSection">
-
-      <h1>💌 Anonymous Message</h1>
-
-      <p class="subtitle">
-        Send me a message anonymously.
-      </p>
-
-      <textarea
-        id="message"
-        placeholder="Write your message..."
-      ></textarea>
-
-      <input
-        id="name"
-        type="text"
-        maxlength="50"
-        placeholder="Mysterious Name"
-      >
-
-      <button
-        id="sendButton"
-        type="button"
-        onclick="sendMessage()"
-      >
-        Send Message
-      </button>
-
-      <div id="status"></div>
-
-    </div>
+<div class="container">
 
 
-    <!-- SUCCESS SECTION -->
+<div class="top">
 
-    <div id="successSection" class="successBox">
+<h1>
+Inbox ✦
+</h1>
 
-      <div class="successTitle">
-        ✓ Message sent!
-      </div>
+<button
+  class="logout"
+  onclick="logout()"
+>
+Logout
+</button>
 
-      <div class="info">
-        Your anonymous message has been sent successfully.
-      </div>
+</div>
 
-      <div class="info">
-        🔗 <b>Save your private link</b>
-      </div>
 
-      <div class="linkBox">
+<!-- =================================
+     WEBSITE VISITS
+================================= -->
 
-        <input
-          id="conversationLink"
-          class="linkInput"
-          type="text"
-          readonly
-        >
+<div class="sectionTitle">
+Website Visits
+</div>
 
-        <button
-          class="copyButton"
-          type="button"
-          onclick="copyLink()"
-        >
-          Copy
-        </button>
+<div
+  id="visits"
+  class="visitsCard"
+>
+Loading visits...
+</div>
 
-      </div>
 
-      <div class="privateNote">
-        🔒 Keep this link private.
-        Anyone with the link can access this conversation.
-      </div>
+<!-- =================================
+     ANONYMOUS MESSAGES
+================================= -->
 
-      <button
-        class="openButton"
-        type="button"
-        onclick="openConversation()"
-      >
-        Open Private Conversation
-      </button>
+<div class="sectionTitle">
+Messages
+</div>
 
-    </div>
+<div id="inbox">
+Loading...
+</div>
 
-  </div>
+
+<div
+  id="conversation"
+  class="conversation"
+  style="display:none;"
+></div>
+
+
+</div>
 
 </div>
 
@@ -260,253 +275,661 @@ const SUPABASE_KEY =
 
 
 /* =====================================
-   GENERATE RANDOM PRIVATE TOKEN
+   OWNER ACCESS TOKEN
 ===================================== */
 
-function generateToken() {
+const accessToken =
+localStorage.getItem(
+  "access_token"
+);
 
-  const array = new Uint8Array(32);
 
-  window.crypto.getRandomValues(array);
+if(!accessToken){
 
-  let token = "";
+  window.location.href =
+    "login.html";
 
-  for (let i = 0; i < array.length; i++) {
-
-    token += array[i]
-      .toString(16)
-      .padStart(2, "0");
-
-  }
-
-  return token;
 }
 
 
 /* =====================================
-   SEND MESSAGE
+   DATE + TIME
+   INDIA / KERALA TIME
 ===================================== */
 
-async function sendMessage() {
+function formatDateTime(value){
 
-  const messageInput =
-    document.getElementById("message");
+  if(!value){
 
-  const nameInput =
-    document.getElementById("name");
+    return "";
 
-  const sendButton =
-    document.getElementById("sendButton");
-
-  const status =
-    document.getElementById("status");
-
-
-  const message =
-    messageInput.value.trim();
-
-  const name =
-    nameInput.value.trim() || "Mysterious Name";
-
-
-  /* Check message */
-
-  if (!message) {
-
-    status.className = "error";
-
-    status.innerText =
-      "Please write a message.";
-
-    return;
   }
 
 
-  /* Disable button */
-
-  sendButton.disabled = true;
-
-  sendButton.innerText =
-    "Sending...";
-
-  status.className = "";
-
-  status.innerText = "";
+  const date =
+    new Date(value);
 
 
-  try {
+  if(isNaN(date.getTime())){
 
-    /* Create private token */
+    return "";
 
-    const token =
-      generateToken();
+  }
 
 
-    /* Send to Supabase */
+  return new Intl.DateTimeFormat(
+    "en-IN",
+    {
+      timeZone:"Asia/Kolkata",
 
-    const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/rpc/create_conversation",
+      day:"numeric",
+
+      month:"short",
+
+      year:"numeric",
+
+      hour:"numeric",
+
+      minute:"2-digit",
+
+      hour12:true
+    }
+  ).format(date);
+
+}
+
+
+/* =====================================
+   SUPABASE API
+===================================== */
+
+async function api(
+  functionName,
+  body
+){
+
+  const response =
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/" +
+      functionName,
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json",
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            accessToken
+        },
+
+        body:JSON.stringify(
+          body || {}
+        )
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if(!response.ok){
+
+    throw new Error(
+      data.message ||
+      data.error ||
+      data.hint ||
+      "Request failed."
+    );
+
+  }
+
+
+  return data;
+
+}
+
+
+/* =====================================
+   LOAD WEBSITE VISITS
+===================================== */
+
+async function loadWebsiteVisits(){
+
+  const box =
+    document.getElementById(
+      "visits"
+    );
+
+
+  try{
+
+    const data =
+      await api(
+        "get_website_visits"
+      );
+
+
+    box.innerHTML = "";
+
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      box.innerHTML =
+        '<div class="empty">' +
+        'No website visits yet.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    data.forEach(
+      function(visit){
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+
+        item.className =
+          "visit";
+
+
+        const time =
+          document.createElement(
+            "div"
+          );
+
+
+        time.className =
+          "visitTime";
+
+
+        time.innerText =
+          formatDateTime(
+            visit.created_at
+          );
+
+
+        item.appendChild(
+          time
+        );
+
+
+        box.appendChild(
+          item
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    box.innerHTML =
+      '<div class="error">❌ ' +
+      error.message +
+      '</div>';
+
+  }
+
+}
+
+
+/* =====================================
+   LOAD OWNER INBOX
+===================================== */
+
+async function loadInbox(){
+
+  try{
+
+    const data =
+      await api(
+        "get_owner_inbox"
+      );
+
+
+    const box =
+      document.getElementById(
+        "inbox"
+      );
+
+
+    box.innerHTML = "";
+
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      box.innerHTML =
+        "<p>No messages yet.</p>";
+
+      return;
+
+    }
+
+
+    data.forEach(
+      function(c){
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+
+        item.className =
+          "card";
+
+
+        const name =
+          document.createElement(
+            "div"
+          );
+
+
+        name.className =
+          "name";
+
+
+        name.innerText =
+          c.anonymous_name ||
+          "Anonymous";
+
+
+        const last =
+          document.createElement(
+            "div"
+          );
+
+
+        last.className =
+          "last";
+
+
+        last.innerText =
+          c.last_message ||
+          "";
+
+
+        item.appendChild(
+          name
+        );
+
+
+        item.appendChild(
+          last
+        );
+
+
+        item.onclick =
+          function(){
+
+            openConversation(
+              c.id
+            );
+
+          };
+
+
+        box.appendChild(
+          item
+        );
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    document.getElementById(
+      "inbox"
+    ).innerHTML =
+      '<div class="error">❌ ' +
+      error.message +
+      '</div>';
+
+  }
+
+}
+
+
+/* =====================================
+   OPEN OWNER CONVERSATION
+===================================== */
+
+async function openConversation(
+  conversationId
+){
+
+  const box =
+    document.getElementById(
+      "conversation"
+    );
+
+
+  box.style.display =
+    "block";
+
+
+  box.innerHTML =
+    '<div class="loading">' +
+    'Loading conversation...' +
+    '</div>';
+
+
+  try{
+
+    const data =
+      await api(
+        "get_owner_conversation",
         {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " + SUPABASE_KEY
-          },
-
-          body: JSON.stringify({
-            p_name: name,
-            p_message: message,
-            p_token: token
-          })
+          p_conversation_id:
+            conversationId
         }
       );
 
 
-    const data =
-      await response.json();
+    box.innerHTML = "";
 
 
-    console.log(
-      "Supabase response:",
-      data
+    /* =================================
+       CONVERSATION NAME
+    ================================= */
+
+    const title =
+      document.createElement(
+        "h2"
+      );
+
+
+    title.innerText =
+      (
+        data.anonymous_name ||
+        "Anonymous"
+      ) +
+      " ✦";
+
+
+    box.appendChild(
+      title
     );
 
 
-    if (!response.ok) {
+    /* =================================
+       MESSAGES
+    ================================= */
 
-      throw new Error(
-        data.message ||
-        data.error ||
-        data.hint ||
-        "Message could not be sent."
+    if(
+      !data.messages ||
+      data.messages.length === 0
+    ){
+
+      const empty =
+        document.createElement(
+          "div"
+        );
+
+
+      empty.className =
+        "loading";
+
+
+      empty.innerText =
+        "No messages yet.";
+
+
+      box.appendChild(
+        empty
+      );
+
+    }else{
+
+      data.messages.forEach(
+        function(m){
+
+          const message =
+            document.createElement(
+              "div"
+            );
+
+
+          message.className =
+            "msg";
+
+
+          if(
+            m.sender_type ===
+            "owner"
+          ){
+
+            message.classList.add(
+              "owner"
+            );
+
+          }
+
+
+          /* MESSAGE TEXT */
+
+          const text =
+            document.createElement(
+              "div"
+            );
+
+
+          text.className =
+            "msgText";
+
+
+          if(
+            m.sender_type ===
+            "owner"
+          ){
+
+            text.innerText =
+              "You: " +
+              (m.body || "");
+
+          }else{
+
+            text.innerText =
+              "Anonymous: " +
+              (m.body || "");
+
+          }
+
+
+          /* MESSAGE DATE + TIME */
+
+          const time =
+            document.createElement(
+              "div"
+            );
+
+
+          time.className =
+            "msgTime";
+
+
+          time.innerText =
+            formatDateTime(
+              m.created_at
+            );
+
+
+          message.appendChild(
+            text
+          );
+
+
+          message.appendChild(
+            time
+          );
+
+
+          box.appendChild(
+            message
+          );
+
+        }
       );
 
     }
 
 
     /* =================================
-       IMPORTANT PRIVATE LINK
+       REPLY TEXTAREA
     ================================= */
 
-    const conversationURL =
-      window.location.origin +
-      "/anonymous-website/conversation.html?token=" +
-      encodeURIComponent(token);
+    const textarea =
+      document.createElement(
+        "textarea"
+      );
 
 
-    console.log(
-      "Private conversation URL:",
-      conversationURL
+    textarea.placeholder =
+      "Write your reply...";
+
+
+    /* =================================
+       REPLY BUTTON
+    ================================= */
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.className =
+      "reply";
+
+
+    button.innerText =
+      "Reply";
+
+
+    /* =================================
+       SEND OWNER REPLY
+    ================================= */
+
+    button.onclick =
+      async function(){
+
+        const message =
+          textarea.value.trim();
+
+
+        if(!message){
+
+          return;
+
+        }
+
+
+        button.disabled =
+          true;
+
+
+        button.innerText =
+          "Sending...";
+
+
+        try{
+
+          await api(
+            "send_owner_reply",
+            {
+              p_conversation_id:
+                conversationId,
+
+              p_message:
+                message
+            }
+          );
+
+
+          textarea.value =
+            "";
+
+
+          await openConversation(
+            conversationId
+          );
+
+
+          loadInbox();
+
+
+        }catch(error){
+
+          alert(
+            error.message
+          );
+
+
+        }finally{
+
+          button.disabled =
+            false;
+
+          button.innerText =
+            "Reply";
+
+        }
+
+      };
+
+
+    box.appendChild(
+      textarea
     );
 
 
-    /* Hide send section */
-
-    document.getElementById(
-      "sendSection"
-    ).style.display = "none";
+    box.appendChild(
+      button
+    );
 
 
-    /* Show success section */
+    /* Scroll to conversation */
 
-    document.getElementById(
-      "successSection"
-    ).style.display = "block";
-
-
-    /* Put link into box */
-
-    document.getElementById(
-      "conversationLink"
-    ).value =
-      conversationURL;
+    box.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
 
 
-  } catch (error) {
+  }catch(error){
 
     console.error(error);
 
-    status.className =
-      "error";
 
-    status.innerText =
-      "❌ " + error.message;
-
-    sendButton.disabled =
-      false;
-
-    sendButton.innerText =
-      "Send Message";
-  }
-
-}
-
-
-/* =====================================
-   COPY PRIVATE LINK
-===================================== */
-
-async function copyLink() {
-
-  const input =
-    document.getElementById(
-      "conversationLink"
-    );
-
-  const button =
-    document.querySelector(
-      ".copyButton"
-    );
-
-
-  try {
-
-    await navigator.clipboard.writeText(
-      input.value
-    );
-
-    button.innerText =
-      "Copied ✓";
-
-
-    setTimeout(function() {
-
-      button.innerText =
-        "Copy";
-
-    }, 2000);
-
-
-  } catch (error) {
-
-    input.select();
-
-    input.setSelectionRange(
-      0,
-      99999
-    );
-
-    document.execCommand("copy");
-
-    button.innerText =
-      "Copied ✓";
-
-
-    setTimeout(function() {
-
-      button.innerText =
-        "Copy";
-
-    }, 2000);
+    box.innerHTML =
+      '<div class="error">❌ ' +
+      error.message +
+      '</div>';
 
   }
 
@@ -514,21 +937,51 @@ async function copyLink() {
 
 
 /* =====================================
-   OPEN PRIVATE CONVERSATION
+   LOGOUT
 ===================================== */
 
-function openConversation() {
+function logout(){
 
-  const link =
-    document.getElementById(
-      "conversationLink"
-    ).value;
+  localStorage.removeItem(
+    "access_token"
+  );
+
+  localStorage.removeItem(
+    "refresh_token"
+  );
+
 
   window.location.href =
-    link;
+    "login.html";
+
 }
+
+
+/* =====================================
+   START
+===================================== */
+
+loadInbox();
+
+loadWebsiteVisits();
+
+
+/* =====================================
+   REFRESH
+===================================== */
+
+setInterval(
+  loadInbox,
+  15000
+);
+
+setInterval(
+  loadWebsiteVisits,
+  15000
+);
 
 </script>
 
 </body>
+
   </html>
