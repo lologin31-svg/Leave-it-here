@@ -35,6 +35,7 @@ body{
 .title{
   margin:0 0 22px;
   font-size:32px;
+  line-height:1.1;
 }
 
 .message{
@@ -127,27 +128,33 @@ button:disabled{
   font-size:14px;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="page">
+
 <div class="card">
 
-<h1 class="title">💬 Private Conversation</h1>
+<h1 class="title">
+💬 Private Conversation
+</h1>
 
 <div id="messages">
-<div class="loading">Loading conversation...</div>
+<div class="loading">
+Loading conversation...
+</div>
 </div>
 
 <textarea
-  id="reply"
-  placeholder="Write your reply..."
+id="reply"
+placeholder="Write your reply..."
 ></textarea>
 
 <button
-  id="replyButton"
-  onclick="sendReply()"
+id="replyButton"
+onclick="sendReply()"
 >
 Reply
 </button>
@@ -155,29 +162,45 @@ Reply
 <div id="status"></div>
 
 </div>
+
 </div>
 
+
 <script>
+
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://merkpcjthrcmjjtlnxkb.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
+"sb_publishable_IRgNBmjcqMYKeZKpOXyXA_HjJ0OB-H";
 
 const token =
 new URLSearchParams(
-  window.location.search
+window.location.search
 ).get("token");
 
 
+/* =========================
+   DATE / TIME
+========================= */
+
 function formatDateTime(value){
 
-  if(!value) return "";
+  if(!value){
+    return "";
+  }
 
-  const date = new Date(value);
+  const date =
+  new Date(value);
 
-  if(isNaN(date.getTime())) return "";
+  if(isNaN(date.getTime())){
+    return "";
+  }
 
   return new Intl.DateTimeFormat(
     "en-IN",
@@ -200,40 +223,47 @@ function formatDateTime(value){
 
 async function markOwnerMessagesSeen(){
 
-  if(!token) return;
+  if(!token){
+    return;
+  }
 
   try{
 
     const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/rpc/mark_owner_messages_seen",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json",
-            "apikey":SUPABASE_KEY,
-            "Authorization":"Bearer "+SUPABASE_KEY
-          },
-          body:JSON.stringify({
-            p_token:token
-          })
-        }
-      );
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/mark_owner_messages_seen",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json",
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+        },
+
+        body:JSON.stringify({
+          p_token:token
+        })
+      }
+    );
 
     const data =
-      await response.json();
+    await response.json();
+
+    console.log(
+      "Messages marked as seen:",
+      data
+    );
 
     if(!response.ok){
+
       console.error(
         "Seen error:",
         data
       );
-    }else{
-      console.log(
-        "Owner messages marked seen:",
-        data
-      );
+
     }
 
   }catch(error){
@@ -254,37 +284,44 @@ async function markOwnerMessagesSeen(){
 async function loadConversation(){
 
   const box =
-    document.getElementById("messages");
+  document.getElementById("messages");
+
 
   if(!token){
 
     box.innerHTML =
-      '<div class="error">❌ Private link is invalid.</div>';
+    '<div class="error">❌ Private link is invalid.</div>';
 
     return;
   }
 
+
   try{
 
     const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/rpc/get_conversation",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json",
-            "apikey":SUPABASE_KEY,
-            "Authorization":"Bearer "+SUPABASE_KEY
-          },
-          body:JSON.stringify({
-            p_token:token
-          })
-        }
-      );
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/get_conversation",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json",
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+        },
+
+        body:JSON.stringify({
+          p_token:token
+        })
+      }
+    );
+
 
     const data =
-      await response.json();
+    await response.json();
+
 
     if(!response.ok){
 
@@ -294,10 +331,18 @@ async function loadConversation(){
         data.hint ||
         "Could not load conversation."
       );
+
     }
 
 
-    /* Mark owner's messages as seen */
+    /*
+      IMPORTANT:
+      The visitor has successfully opened
+      the private conversation.
+
+      Mark all owner messages as seen.
+    */
+
     await markOwnerMessagesSeen();
 
 
@@ -310,7 +355,7 @@ async function loadConversation(){
     ){
 
       box.innerHTML =
-        '<div class="loading">No messages yet.</div>';
+      '<div class="loading">No messages yet.</div>';
 
       return;
     }
@@ -319,62 +364,82 @@ async function loadConversation(){
     data.messages.forEach(function(m){
 
       const message =
-        document.createElement("div");
+      document.createElement("div");
 
       message.className="message";
 
 
-      if(m.sender_type==="owner"){
+      if(
+        m.sender_type === "owner"
+      ){
+
         message.classList.add("owner");
+
       }
 
 
       const sender =
-        document.createElement("div");
+      document.createElement("div");
 
       sender.className="sender";
 
+
       sender.innerText =
-        m.sender_type==="owner"
-        ? "Aadhi"
-        : "You";
+      m.sender_type === "owner"
+      ? "Aadhi"
+      : "You";
 
 
       const body =
-        document.createElement("div");
+      document.createElement("div");
 
       body.className="body";
 
       body.innerText =
-        m.body || "";
+      m.body || "";
 
 
       const time =
-        document.createElement("div");
+      document.createElement("div");
 
       time.className="time";
 
       time.innerText =
-        formatDateTime(m.created_at);
+      formatDateTime(
+        m.created_at
+      );
 
 
-      message.appendChild(sender);
-      message.appendChild(body);
-      message.appendChild(time);
+      message.appendChild(
+        sender
+      );
 
-      box.appendChild(message);
+      message.appendChild(
+        body
+      );
+
+      message.appendChild(
+        time
+      );
+
+      box.appendChild(
+        message
+      );
 
     });
+
 
   }catch(error){
 
     console.error(error);
 
     box.innerHTML =
-      '<div class="error">❌ ' +
-      error.message +
-      '</div>';
+    '<div class="error">❌ ' +
+    error.message +
+    '</div>';
+
   }
+
 }
 
 
@@ -385,54 +450,65 @@ async function loadConversation(){
 async function sendReply(){
 
   const textarea =
-    document.getElementById("reply");
+  document.getElementById("reply");
 
   const button =
-    document.getElementById("replyButton");
+  document.getElementById("replyButton");
 
   const status =
-    document.getElementById("status");
+  document.getElementById("status");
+
 
   const message =
-    textarea.value.trim();
+  textarea.value.trim();
+
 
   if(!message){
 
     status.innerText =
-      "Write a reply first.";
+    "Write a reply first.";
 
     return;
   }
 
 
   button.disabled=true;
-  button.innerText="Sending...";
+
+  button.innerText =
+  "Sending...";
+
   status.innerText="";
 
 
   try{
 
     const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/rpc/send_reply",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json",
-            "apikey":SUPABASE_KEY,
-            "Authorization":"Bearer "+SUPABASE_KEY
-          },
-          body:JSON.stringify({
-            p_token:token,
-            p_message:message
-          })
-        }
-      );
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/send_reply",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json",
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+        },
+
+        body:JSON.stringify({
+
+          p_token:token,
+
+          p_message:message
+
+        })
+      }
+    );
 
 
     const data =
-      await response.json();
+    await response.json();
 
 
     if(!response.ok){
@@ -443,14 +519,18 @@ async function sendReply(){
         data.hint ||
         "Could not send reply."
       );
+
     }
 
 
     textarea.value="";
 
-    status.innerText="Reply sent ✓";
+    status.innerText =
+    "Reply sent ✓";
+
 
     await loadConversation();
+
 
   }catch(error){
 
@@ -459,18 +539,33 @@ async function sendReply(){
     status.className="error";
 
     status.innerText =
-      "❌ " + error.message;
+    "❌ " + error.message;
+
 
   }finally{
 
     button.disabled=false;
-    button.innerText="Reply";
+
+    button.innerText =
+    "Reply";
 
   }
+
 }
 
 
+/* =========================
+   START
+========================= */
+
 loadConversation();
+
+
+/*
+  Check again every 10 seconds.
+  This also makes sure newly opened
+  messages are marked as seen.
+*/
 
 setInterval(
   loadConversation,
