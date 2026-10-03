@@ -106,6 +106,11 @@ button:disabled{
   margin-top:20px;
 }
 
+.success p{
+  color:#555;
+  line-height:1.55;
+}
+
 .linkBox{
   width:100%;
   padding:14px;
@@ -228,8 +233,6 @@ async function recordWebsiteVisit(){
 }
 
 
-/* Record visit immediately */
-
 recordWebsiteVisit();
 
 
@@ -243,7 +246,6 @@ function generateToken(){
     new Uint8Array(32);
 
   crypto.getRandomValues(bytes);
-
 
   return Array
     .from(bytes)
@@ -380,6 +382,10 @@ async function sendMessage(){
     status.innerHTML = "";
 
 
+    /* =================================
+       SUCCESS MESSAGE
+    ================================= */
+
     const success =
       document.createElement(
         "div"
@@ -390,13 +396,43 @@ async function sendMessage(){
       "success";
 
 
-    success.innerHTML = `
-      <strong>Message sent ✦</strong>
-      <br><br>
-      Keep this private conversation link.
-      You can use it later to see replies.
-    `;
+    const title =
+      document.createElement(
+        "strong"
+      );
 
+
+    title.innerText =
+      "Message sent ✦";
+
+
+    success.appendChild(
+      title
+    );
+
+
+    /* =================================
+       PRIVATE LINK INSTRUCTION
+    ================================= */
+
+    const instruction =
+      document.createElement(
+        "p"
+      );
+
+
+    instruction.innerText =
+      "Keep this private link safe. Paste it into any browser whenever you want to return and check for replies.";
+
+
+    success.appendChild(
+      instruction
+    );
+
+
+    /* =================================
+       LINK
+    ================================= */
 
     const linkBox =
       document.createElement(
@@ -416,6 +452,10 @@ async function sendMessage(){
       linkBox
     );
 
+
+    /* =================================
+       COPY BUTTON
+    ================================= */
 
     const copyButton =
       document.createElement(
@@ -450,20 +490,26 @@ async function sendMessage(){
               "textarea"
             );
 
+
           temp.value =
             conversationURL;
+
 
           document.body.appendChild(
             temp
           );
 
+
           temp.select();
+
 
           document.execCommand(
             "copy"
           );
 
+
           temp.remove();
+
 
           copyButton.innerText =
             "Copied ✓";
@@ -477,6 +523,10 @@ async function sendMessage(){
       copyButton
     );
 
+
+    /* =================================
+       OPEN CONVERSATION BUTTON
+    ================================= */
 
     const openButton =
       document.createElement(
