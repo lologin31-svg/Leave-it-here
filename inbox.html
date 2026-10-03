@@ -4,21 +4,15 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Anonymous Inbox</title>
-
 
 <style>
 
 *{
   box-sizing:border-box;
 }
-
 
 body{
   margin:0;
@@ -27,19 +21,16 @@ body{
   font-family:Arial,Helvetica,sans-serif;
 }
 
-
 .page{
   min-height:100vh;
   padding:35px 15px;
 }
-
 
 .container{
   width:100%;
   max-width:750px;
   margin:auto;
 }
-
 
 .top{
   display:flex;
@@ -48,12 +39,10 @@ body{
   margin-bottom:25px;
 }
 
-
 h1{
   margin:0;
   font-size:42px;
 }
-
 
 .logout{
   width:auto;
@@ -67,6 +56,39 @@ h1{
   font-weight:bold;
 }
 
+.sectionTitle{
+  font-size:24px;
+  font-weight:bold;
+  margin:30px 0 12px;
+}
+
+
+/* WEBSITE VISITS */
+
+.visitsCard{
+  background:#fff;
+  border-radius:22px;
+  padding:22px;
+  margin:14px 0;
+  box-shadow:0 8px 25px rgba(0,0,0,.06);
+}
+
+.visit{
+  padding:15px 0;
+  border-bottom:1px solid #eee;
+  font-size:16px;
+}
+
+.visit:last-child{
+  border-bottom:0;
+}
+
+.visitTime{
+  font-weight:bold;
+}
+
+
+/* MESSAGE CARDS */
 
 .card{
   background:#fff;
@@ -77,12 +99,10 @@ h1{
   cursor:pointer;
 }
 
-
 .name{
   font-size:20px;
   font-weight:bold;
 }
-
 
 .last{
   color:#666;
@@ -91,12 +111,7 @@ h1{
 }
 
 
-.lastTime{
-  color:#999;
-  margin-top:6px;
-  font-size:12px;
-}
-
+/* CONVERSATION */
 
 .conversation{
   margin-top:25px;
@@ -106,28 +121,24 @@ h1{
   box-shadow:0 8px 25px rgba(0,0,0,.06);
 }
 
-
 .msg{
   background:#ededee;
   border-radius:18px;
   padding:17px;
   margin:12px 0;
-  white-space:pre-wrap;
   word-break:break-word;
+  white-space:pre-wrap;
 }
-
 
 .msg.owner{
   background:#111;
   color:#fff;
 }
 
-
 .msgText{
   font-size:17px;
   line-height:1.45;
 }
-
 
 .msgTime{
   margin-top:9px;
@@ -135,11 +146,12 @@ h1{
   color:#888;
 }
 
-
 .msg.owner .msgTime{
   color:#aaa;
 }
 
+
+/* SENT / SEEN */
 
 .msgStatus{
   margin-top:7px;
@@ -147,21 +159,16 @@ h1{
   font-weight:bold;
 }
 
-
-.msg.owner .msgStatus{
+.msgStatus.sent{
   color:#aaa;
 }
 
-
-.seen{
+.msgStatus.seen{
   color:#fff;
 }
 
 
-.sent{
-  color:#aaa;
-}
-
+/* REPLY */
 
 textarea{
   width:100%;
@@ -176,11 +183,9 @@ textarea{
   outline:none;
 }
 
-
 textarea:focus{
   border-color:#999;
 }
-
 
 .reply{
   width:100%;
@@ -194,11 +199,9 @@ textarea:focus{
   font-weight:bold;
 }
 
-
 .reply:disabled{
   opacity:.6;
 }
-
 
 .loading{
   color:#777;
@@ -206,12 +209,10 @@ textarea:focus{
   padding:20px;
 }
 
-
 .error{
   color:#d00000;
   font-weight:bold;
 }
-
 
 .empty{
   color:#777;
@@ -224,18 +225,18 @@ textarea:focus{
 
 <body>
 
-
 <div class="page">
 
 <div class="container">
 
+
+<!-- TOP -->
 
 <div class="top">
 
 <h1>
 Inbox ✦
 </h1>
-
 
 <button
   class="logout"
@@ -247,14 +248,32 @@ Logout
 </div>
 
 
+<!-- WEBSITE VISITS -->
 
-<div id="inbox">
+<div class="sectionTitle">
+Website Visits
+</div>
 
-Loading...
-
+<div
+  id="visits"
+  class="visitsCard"
+>
+Loading visits...
 </div>
 
 
+<!-- MESSAGES -->
+
+<div class="sectionTitle">
+Messages
+</div>
+
+<div id="inbox">
+Loading...
+</div>
+
+
+<!-- CONVERSATION -->
 
 <div
   id="conversation"
@@ -264,17 +283,11 @@ Loading...
 
 
 </div>
-
 </div>
-
 
 
 <script>
 
-
-/* =========================
-   SUPABASE
-========================= */
 
 const SUPABASE_URL =
 "https://merkpcjthrcmjjtlnxkb.supabase.co";
@@ -285,75 +298,42 @@ const SUPABASE_KEY =
 
 
 const accessToken =
-localStorage.getItem(
-  "access_token"
-);
+localStorage.getItem("access_token");
 
 
 if(!accessToken){
-
-  window.location.href =
-    "login.html";
-
+  window.location.href="login.html";
 }
 
 
-
 /* =========================
-   DATE + TIME
+   DATE / TIME
 ========================= */
 
-function formatDateTime(
-  dateString
-){
+function formatDateTime(value){
 
-  if(!dateString){
-    return "";
-  }
-
+  if(!value) return "";
 
   const date =
-    new Date(dateString);
-
+    new Date(value);
 
   if(isNaN(date.getTime())){
     return "";
   }
 
-
   return new Intl.DateTimeFormat(
-
     "en-IN",
-
     {
-
-      timeZone:
-        "Asia/Kolkata",
-
-      day:
-        "numeric",
-
-      month:
-        "short",
-
-      year:
-        "numeric",
-
-      hour:
-        "numeric",
-
-      minute:
-        "2-digit",
-
-      hour12:
-        true
-
+      timeZone:"Asia/Kolkata",
+      day:"numeric",
+      month:"short",
+      year:"numeric",
+      hour:"numeric",
+      minute:"2-digit",
+      hour12:true
     }
-
   ).format(date);
-
 }
-
 
 
 /* =========================
@@ -367,36 +347,18 @@ async function api(
 
   const response =
     await fetch(
-
       SUPABASE_URL +
       "/rest/v1/rpc/" +
       functionName,
-
       {
-
         method:"POST",
-
         headers:{
-
-          "Content-Type":
-            "application/json",
-
-          "apikey":
-            SUPABASE_KEY,
-
-          "Authorization":
-            "Bearer " +
-            accessToken
-
+          "Content-Type":"application/json",
+          "apikey":SUPABASE_KEY,
+          "Authorization":"Bearer "+accessToken
         },
-
-        body:
-          JSON.stringify(
-            body || {}
-          )
-
+        body:JSON.stringify(body || {})
       }
-
     );
 
 
@@ -407,21 +369,90 @@ async function api(
   if(!response.ok){
 
     throw new Error(
-
       data.message ||
       data.error ||
       data.hint ||
       "Request failed."
-
     );
-
   }
 
 
   return data;
-
 }
 
+
+/* =========================
+   WEBSITE VISITS
+========================= */
+
+async function loadWebsiteVisits(){
+
+  const box =
+    document.getElementById("visits");
+
+
+  try{
+
+    const data =
+      await api(
+        "get_website_visits"
+      );
+
+
+    box.innerHTML="";
+
+
+    if(
+      !data ||
+      data.length===0
+    ){
+
+      box.innerHTML =
+        '<div class="empty">No website visits yet.</div>';
+
+      return;
+    }
+
+
+    data.forEach(function(visit){
+
+      const item =
+        document.createElement("div");
+
+      item.className="visit";
+
+
+      const time =
+        document.createElement("div");
+
+      time.className="visitTime";
+
+      time.innerText =
+        formatDateTime(
+          visit.created_at
+        );
+
+
+      item.appendChild(time);
+
+      box.appendChild(item);
+
+    });
+
+
+  }catch(error){
+
+    console.error(
+      "Website visit error:",
+      error
+    );
+
+    box.innerHTML =
+      '<div class="error">❌ ' +
+      error.message +
+      '</div>';
+  }
+}
 
 
 /* =========================
@@ -439,10 +470,7 @@ async function loadInbox(){
 
 
     const box =
-      document.getElementById(
-        "inbox"
-      );
-
+      document.getElementById("inbox");
 
     box.innerHTML="";
 
@@ -456,103 +484,63 @@ async function loadInbox(){
         "<p>No messages yet.</p>";
 
       return;
-
     }
 
 
-    data.forEach(
+    data.forEach(function(c){
 
-      function(c){
+      const item =
+        document.createElement("div");
 
-        const item =
-          document.createElement(
-            "div"
-          );
+      item.className="card";
 
 
-        item.className =
-          "card";
+      const name =
+        document.createElement("div");
+
+      name.className="name";
+
+      name.innerText =
+        c.anonymous_name ||
+        "Anonymous";
 
 
-        item.innerHTML =
+      const last =
+        document.createElement("div");
 
-          '<div class="name">' +
+      last.className="last";
 
-          escapeHTML(
-
-            c.anonymous_name ||
-            "Anonymous"
-
-          ) +
-
-          '</div>' +
+      last.innerText =
+        c.last_message || "";
 
 
-          '<div class="last">' +
-
-          escapeHTML(
-
-            c.last_message ||
-            ""
-
-          ) +
-
-          '</div>' +
+      item.appendChild(name);
+      item.appendChild(last);
 
 
-          '<div class="lastTime">' +
+      item.onclick =
+        function(){
 
-          (
+          openConversation(c.id);
 
-            c.last_message_at
-
-            ? formatDateTime(
-                c.last_message_at
-              )
-
-            : ""
-
-          ) +
-
-          '</div>';
+        };
 
 
-        item.onclick =
-          function(){
+      box.appendChild(item);
 
-            openConversation(
-              c.id
-            );
-
-          };
-
-
-        box.appendChild(
-          item
-        );
-
-      }
-
-    );
+    });
 
 
   }catch(error){
 
     console.error(error);
 
-
-    document.getElementById(
-      "inbox"
-    ).innerHTML =
-
+    document.getElementById("inbox").innerHTML =
       '<div class="error">❌ ' +
       error.message +
       '</div>';
-
   }
-
 }
-
 
 
 /* =========================
@@ -560,7 +548,7 @@ async function loadInbox(){
 ========================= */
 
 async function openConversation(
-  id
+  conversationId
 ){
 
   const box =
@@ -569,9 +557,7 @@ async function openConversation(
     );
 
 
-  box.style.display =
-    "block";
-
+  box.style.display="block";
 
   box.innerHTML =
     '<div class="loading">Loading conversation...</div>';
@@ -579,22 +565,13 @@ async function openConversation(
 
   try{
 
-    /*
-      IMPORTANT:
-      This is the new RPC that
-      directly returns seen_at.
-    */
-
     const data =
       await api(
-
         "get_owner_conversation_with_seen",
-
         {
           p_conversation_id:
-            id
+            conversationId
         }
-
       );
 
 
@@ -602,22 +579,16 @@ async function openConversation(
 
 
     const title =
-      document.createElement(
-        "h2"
-      );
-
+      document.createElement("h2");
 
     title.innerText =
       (
         data.anonymous_name ||
         "Anonymous"
-      ) +
-      " ✦";
+      ) + " ✦";
 
 
-    box.appendChild(
-      title
-    );
+    box.appendChild(title);
 
 
     if(
@@ -626,249 +597,167 @@ async function openConversation(
     ){
 
       const empty =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
-
-      empty.className =
-        "loading";
-
+      empty.className="loading";
 
       empty.innerText =
         "No messages yet.";
 
-
-      box.appendChild(
-        empty
-      );
+      box.appendChild(empty);
 
     }else{
 
 
-      data.messages.forEach(
+      data.messages.forEach(function(m){
 
-        function(m){
+        const message =
+          document.createElement("div");
 
-          const message =
-            document.createElement(
-              "div"
-            );
+        message.className="msg";
 
 
-          message.className =
-            "msg";
+        if(
+          m.sender_type==="owner"
+        ){
 
-
-          if(
-            m.sender_type ===
+          message.classList.add(
             "owner"
-          ){
-
-            message.classList.add(
-              "owner"
-            );
-
-          }
-
-
-          /* =========================
-             MESSAGE TEXT
-          ========================= */
-
-          const text =
-            document.createElement(
-              "div"
-            );
-
-
-          text.className =
-            "msgText";
-
-
-          text.innerText =
-
-            m.sender_type ===
-            "owner"
-
-            ? "You: " + m.body
-
-            : "Anonymous: " + m.body;
-
-
-          message.appendChild(
-            text
           );
-
-
-          /* =========================
-             MESSAGE TIME
-          ========================= */
-
-          const time =
-            document.createElement(
-              "div"
-            );
-
-
-          time.className =
-            "msgTime";
-
-
-          time.innerText =
-            formatDateTime(
-              m.created_at
-            );
-
-
-          message.appendChild(
-            time
-          );
-
-
-          /* =========================
-             SEEN / SENT
-          ========================= */
-
-          if(
-            m.sender_type ===
-            "owner"
-          ){
-
-            const status =
-              document.createElement(
-                "div"
-              );
-
-
-            status.className =
-              "msgStatus";
-
-
-            if(m.seen_at){
-
-              status.classList.add(
-                "seen"
-              );
-
-
-              status.innerText =
-
-                "✓✓ Seen · " +
-
-                formatDateTime(
-                  m.seen_at
-                );
-
-            }else{
-
-              status.classList.add(
-                "sent"
-              );
-
-
-              status.innerText =
-                "✓ Sent";
-
-            }
-
-
-            message.appendChild(
-              status
-            );
-
-          }
-
-
-          box.appendChild(
-            message
-          );
-
         }
 
-      );
+
+        const text =
+          document.createElement("div");
+
+        text.className="msgText";
+
+
+        text.innerText =
+          m.sender_type==="owner"
+          ? "You: " + (m.body || "")
+          : "Anonymous: " + (m.body || "");
+
+
+        message.appendChild(text);
+
+
+        const time =
+          document.createElement("div");
+
+        time.className="msgTime";
+
+        time.innerText =
+          formatDateTime(
+            m.created_at
+          );
+
+
+        message.appendChild(time);
+
+
+        /* SEEN STATUS */
+
+        if(
+          m.sender_type==="owner"
+        ){
+
+          const status =
+            document.createElement("div");
+
+          status.className="msgStatus";
+
+
+          if(m.seen_at){
+
+            status.classList.add(
+              "seen"
+            );
+
+            status.innerText =
+              "✓✓ Seen · " +
+              formatDateTime(
+                m.seen_at
+              );
+
+          }else{
+
+            status.classList.add(
+              "sent"
+            );
+
+            status.innerText =
+              "✓ Sent";
+          }
+
+
+          message.appendChild(status);
+        }
+
+
+        box.appendChild(message);
+
+      });
 
     }
 
 
-
     /* =========================
-       REPLY BOX
+       REPLY
     ========================= */
 
     const textarea =
-      document.createElement(
-        "textarea"
-      );
-
+      document.createElement("textarea");
 
     textarea.placeholder =
       "Write your reply...";
 
 
     const button =
-      document.createElement(
-        "button"
-      );
+      document.createElement("button");
 
+    button.className="reply";
 
-    button.className =
-      "reply";
-
-
-    button.innerText =
-      "Reply";
+    button.innerText="Reply";
 
 
     button.onclick =
       async function(){
 
-        const text =
+        const message =
           textarea.value.trim();
 
 
-        if(!text){
-          return;
-        }
+        if(!message) return;
 
 
-        button.disabled =
-          true;
+        button.disabled=true;
 
-
-        button.innerText =
-          "Sending...";
+        button.innerText="Sending...";
 
 
         try{
 
           await api(
-
             "send_owner_reply",
-
             {
-
               p_conversation_id:
-                id,
-
+                conversationId,
               p_message:
-                text
-
+                message
             }
-
           );
 
 
-          textarea.value =
-            "";
+          textarea.value="";
 
 
           await openConversation(
-            id
+            conversationId
           );
 
 
-          loadInbox();
+          await loadInbox();
 
 
         }catch(error){
@@ -879,34 +768,21 @@ async function openConversation(
 
         }finally{
 
-          button.disabled =
-            false;
+          button.disabled=false;
 
-
-          button.innerText =
-            "Reply";
-
+          button.innerText="Reply";
         }
 
       };
 
 
-    box.appendChild(
-      textarea
-    );
-
-
-    box.appendChild(
-      button
-    );
+    box.appendChild(textarea);
+    box.appendChild(button);
 
 
     box.scrollIntoView({
-
       behavior:"smooth",
-
       block:"start"
-
     });
 
 
@@ -914,42 +790,12 @@ async function openConversation(
 
     console.error(error);
 
-
     box.innerHTML =
       '<div class="error">❌ ' +
       error.message +
       '</div>';
-
   }
-
 }
-
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHTML(
-  value
-){
-
-  const div =
-    document.createElement(
-      "div"
-    );
-
-
-  div.innerText =
-    value == null
-    ? ""
-    : String(value);
-
-
-  return div.innerHTML;
-
-}
-
 
 
 /* =========================
@@ -962,17 +808,13 @@ function logout(){
     "access_token"
   );
 
-
   localStorage.removeItem(
     "refresh_token"
   );
 
-
   window.location.href =
     "login.html";
-
 }
-
 
 
 /* =========================
@@ -981,20 +823,22 @@ function logout(){
 
 loadInbox();
 
+loadWebsiteVisits();
 
-/*
-  Refresh inbox every
-  15 seconds.
-*/
+
+/* Refresh */
 
 setInterval(
   loadInbox,
   15000
 );
 
+setInterval(
+  loadWebsiteVisits,
+  15000
+);
+
 </script>
 
-
 </body>
-
 </html>
