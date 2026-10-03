@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -151,9 +152,11 @@ button:disabled{
 </h1>
 
 <div id="messages">
+
   <div class="loading">
     Loading conversation...
   </div>
+
 </div>
 
 <textarea
@@ -187,6 +190,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
 
+
 const token =
 new URLSearchParams(
   window.location.search
@@ -199,8 +203,16 @@ new URLSearchParams(
 
 function formatDateTime(dateString){
 
+  if(!dateString){
+    return "";
+  }
+
   const date =
     new Date(dateString);
+
+  if(isNaN(date.getTime())){
+    return "";
+  }
 
   return new Intl.DateTimeFormat(
     "en-IN",
@@ -214,6 +226,54 @@ function formatDateTime(dateString){
       hour12:true
     }
   ).format(date);
+
+}
+
+
+/* =========================
+   MARK OWNER MESSAGES SEEN
+========================= */
+
+async function markOwnerMessagesSeen(){
+
+  if(!token){
+    return;
+  }
+
+  try{
+
+    await fetch(
+      SUPABASE_URL +
+      "/rest/v1/rpc/mark_owner_messages_seen",
+      {
+        method:"POST",
+
+        headers:{
+          "Content-Type":
+            "application/json",
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " +
+            SUPABASE_KEY
+        },
+
+        body:JSON.stringify({
+          p_token:token
+        })
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "Seen status error:",
+      error
+    );
+
+  }
 
 }
 
@@ -233,7 +293,9 @@ async function loadConversation(){
   if(!token){
 
     box.innerHTML =
-      '<div class="error">❌ No private token found.</div>';
+      '<div class="error">' +
+      '❌ No private token found.' +
+      '</div>';
 
     return;
   }
@@ -256,7 +318,8 @@ async function loadConversation(){
               SUPABASE_KEY,
 
             "Authorization":
-              "Bearer " + SUPABASE_KEY
+              "Bearer " +
+              SUPABASE_KEY
           },
 
           body:JSON.stringify({
@@ -268,12 +331,6 @@ async function loadConversation(){
 
     const data =
       await response.json();
-
-
-    console.log(
-      "Conversation response:",
-      data
-    );
 
 
     if(!response.ok){
@@ -288,6 +345,14 @@ async function loadConversation(){
     }
 
 
+    /*
+      Mark owner messages as seen
+      after the conversation loads.
+    */
+
+    await markOwnerMessagesSeen();
+
+
     box.innerHTML="";
 
 
@@ -297,7 +362,9 @@ async function loadConversation(){
     ){
 
       box.innerHTML =
-        '<div class="loading">No messages yet.</div>';
+        '<div class="loading">' +
+        'No messages yet.' +
+        '</div>';
 
       return;
     }
@@ -307,14 +374,18 @@ async function loadConversation(){
       function(message){
 
         const item =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
+
 
         item.className =
           "message";
 
 
         if(
-          message.sender_type==="owner"
+          message.sender_type ===
+          "owner"
         ){
 
           item.classList.add(
@@ -324,20 +395,30 @@ async function loadConversation(){
         }
 
 
+        /* SENDER */
+
         const sender =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
         sender.className =
           "sender";
 
+
         sender.innerText =
-          message.sender_type==="owner"
+          message.sender_type ===
+          "owner"
           ? "Aadhi"
           : "You";
 
 
+        /* MESSAGE */
+
         const body =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
         body.className =
           "body";
@@ -346,8 +427,12 @@ async function loadConversation(){
           message.body;
 
 
+        /* TIME */
+
         const time =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
         time.className =
           "time";
@@ -358,17 +443,24 @@ async function loadConversation(){
           );
 
 
-        item.appendChild(sender);
+        item.appendChild(
+          sender
+        );
 
-        item.appendChild(body);
+        item.appendChild(
+          body
+        );
 
-        item.appendChild(time);
+        item.appendChild(
+          time
+        );
 
-        box.appendChild(item);
+        box.appendChild(
+          item
+        );
 
       }
     );
-
 
   }catch(error){
 
@@ -422,14 +514,14 @@ async function sendReply(){
   }
 
 
-  button.disabled=true;
+  button.disabled = true;
 
   button.innerText =
     "Sending...";
 
-  status.className="";
+  status.className = "";
 
-  status.innerText="";
+  status.innerText = "";
 
 
   try{
@@ -449,7 +541,8 @@ async function sendReply(){
               SUPABASE_KEY,
 
             "Authorization":
-              "Bearer " + SUPABASE_KEY
+              "Bearer " +
+              SUPABASE_KEY
           },
 
           body:JSON.stringify({
@@ -467,12 +560,6 @@ async function sendReply(){
       await response.json();
 
 
-    console.log(
-      "Reply response:",
-      data
-    );
-
-
     if(!response.ok){
 
       throw new Error(
@@ -485,10 +572,11 @@ async function sendReply(){
     }
 
 
-    textarea.value="";
+    textarea.value = "";
 
     status.innerText =
       "✓ Reply sent";
+
 
     await loadConversation();
 
@@ -501,12 +589,13 @@ async function sendReply(){
       "error";
 
     status.innerText =
-      "❌ " + error.message;
+      "❌ " +
+      error.message;
 
   }
 
 
-  button.disabled=false;
+  button.disabled = false;
 
   button.innerText =
     "Reply";
@@ -522,8 +611,9 @@ loadConversation();
 
 
 /*
-  Automatically refresh every
-  5 seconds so new replies appear.
+  Refresh every 10 seconds.
+  This also marks new owner
+  messages as seen.
 */
 
 setInterval(
@@ -534,4 +624,5 @@ setInterval(
 </script>
 
 </body>
+
 </html>
