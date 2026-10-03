@@ -35,7 +35,6 @@ body{
 .title{
   margin:0 0 22px;
   font-size:32px;
-  line-height:1.1;
 }
 
 .message{
@@ -128,13 +127,11 @@ button:disabled{
   font-size:14px;
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="page">
-
 <div class="card">
 
 <h1 class="title">
@@ -162,22 +159,15 @@ Reply
 <div id="status"></div>
 
 </div>
-
 </div>
 
-
 <script>
-
-
-/* =========================
-   SUPABASE
-========================= */
 
 const SUPABASE_URL =
 "https://merkpcjthrcmjjtlnxkb.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_IRgNBmjcqMYKeZKpOXyXA_HjJ0OB-H";
+"sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
 
 const token =
 new URLSearchParams(
@@ -185,22 +175,13 @@ window.location.search
 ).get("token");
 
 
-/* =========================
-   DATE / TIME
-========================= */
-
 function formatDateTime(value){
 
-  if(!value){
-    return "";
-  }
+  if(!value) return "";
 
-  const date =
-  new Date(value);
+  const date = new Date(value);
 
-  if(isNaN(date.getTime())){
-    return "";
-  }
+  if(isNaN(date.getTime())) return "";
 
   return new Intl.DateTimeFormat(
     "en-IN",
@@ -238,7 +219,10 @@ async function markOwnerMessagesSeen(){
 
         headers:{
           "Content-Type":"application/json",
-          "apikey":SUPABASE_KEY,
+
+          "apikey":
+            SUPABASE_KEY,
+
           "Authorization":
             "Bearer " + SUPABASE_KEY
         },
@@ -249,13 +233,16 @@ async function markOwnerMessagesSeen(){
       }
     );
 
+
     const data =
     await response.json();
 
+
     console.log(
-      "Messages marked as seen:",
+      "Seen result:",
       data
     );
+
 
     if(!response.ok){
 
@@ -290,7 +277,7 @@ async function loadConversation(){
   if(!token){
 
     box.innerHTML =
-    '<div class="error">❌ Private link is invalid.</div>';
+    '<div class="error">❌ Invalid private link.</div>';
 
     return;
   }
@@ -307,7 +294,10 @@ async function loadConversation(){
 
         headers:{
           "Content-Type":"application/json",
-          "apikey":SUPABASE_KEY,
+
+          "apikey":
+            SUPABASE_KEY,
+
           "Authorization":
             "Bearer " + SUPABASE_KEY
         },
@@ -336,11 +326,8 @@ async function loadConversation(){
 
 
     /*
-      IMPORTANT:
-      The visitor has successfully opened
-      the private conversation.
-
-      Mark all owner messages as seen.
+      The page has successfully opened.
+      Mark owner's messages as seen.
     */
 
     await markOwnerMessagesSeen();
@@ -383,7 +370,6 @@ async function loadConversation(){
 
       sender.className="sender";
 
-
       sender.innerText =
       m.sender_type === "owner"
       ? "Aadhi"
@@ -410,21 +396,11 @@ async function loadConversation(){
       );
 
 
-      message.appendChild(
-        sender
-      );
+      message.appendChild(sender);
+      message.appendChild(body);
+      message.appendChild(time);
 
-      message.appendChild(
-        body
-      );
-
-      message.appendChild(
-        time
-      );
-
-      box.appendChild(
-        message
-      );
+      box.appendChild(message);
 
     });
 
@@ -439,7 +415,6 @@ async function loadConversation(){
     '</div>';
 
   }
-
 }
 
 
@@ -473,10 +448,7 @@ async function sendReply(){
 
 
   button.disabled=true;
-
-  button.innerText =
-  "Sending...";
-
+  button.innerText="Sending...";
   status.innerText="";
 
 
@@ -491,17 +463,17 @@ async function sendReply(){
 
         headers:{
           "Content-Type":"application/json",
-          "apikey":SUPABASE_KEY,
+
+          "apikey":
+            SUPABASE_KEY,
+
           "Authorization":
             "Bearer " + SUPABASE_KEY
         },
 
         body:JSON.stringify({
-
           p_token:token,
-
           p_message:message
-
         })
       }
     );
@@ -541,16 +513,12 @@ async function sendReply(){
     status.innerText =
     "❌ " + error.message;
 
-
   }finally{
 
     button.disabled=false;
-
-    button.innerText =
-    "Reply";
+    button.innerText="Reply";
 
   }
-
 }
 
 
@@ -559,13 +527,6 @@ async function sendReply(){
 ========================= */
 
 loadConversation();
-
-
-/*
-  Check again every 10 seconds.
-  This also makes sure newly opened
-  messages are marked as seen.
-*/
 
 setInterval(
   loadConversation,
