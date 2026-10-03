@@ -333,7 +333,7 @@ async function loadConversation(){
         sender.innerText =
           message.sender_type==="owner"
           ? "Aadhi"
-          : "Anonymous";
+          : "You";
 
 
         const body =
@@ -523,7 +523,7 @@ loadConversation();
 
 /*
   Automatically refresh every
-  10 seconds so new replies appear.
+  5 seconds so new replies appear.
 */
 
 setInterval(
