@@ -12,11 +12,13 @@
 
 <title>Private Conversation</title>
 
+
 <style>
 
 *{
   box-sizing:border-box;
 }
+
 
 body{
   margin:0;
@@ -25,12 +27,14 @@ body{
   font-family:Arial,Helvetica,sans-serif;
 }
 
+
 .page{
   min-height:100vh;
   padding:25px 14px;
   display:flex;
   justify-content:center;
 }
+
 
 .card{
   width:100%;
@@ -41,11 +45,13 @@ body{
   box-shadow:0 10px 30px rgba(0,0,0,.07);
 }
 
+
 .title{
   margin:0 0 22px;
   font-size:32px;
   line-height:1.1;
 }
+
 
 .message{
   background:#f0f0f1;
@@ -54,10 +60,12 @@ body{
   margin:10px 0;
 }
 
+
 .message.owner{
   background:#111;
   color:#fff;
 }
+
 
 .sender{
   font-size:13px;
@@ -66,9 +74,11 @@ body{
   margin-bottom:6px;
 }
 
+
 .owner .sender{
   color:#ccc;
 }
+
 
 .body{
   font-size:16px;
@@ -77,15 +87,18 @@ body{
   word-break:break-word;
 }
 
+
 .time{
   margin-top:9px;
   font-size:11px;
   color:#888;
 }
 
+
 .owner .time{
   color:#aaa;
 }
+
 
 textarea{
   width:100%;
@@ -100,9 +113,11 @@ textarea{
   outline:none;
 }
 
+
 textarea:focus{
   border-color:#999;
 }
+
 
 button{
   width:100%;
@@ -116,9 +131,11 @@ button{
   font-weight:600;
 }
 
+
 button:disabled{
   opacity:.6;
 }
+
 
 #status{
   text-align:center;
@@ -126,10 +143,12 @@ button:disabled{
   font-size:14px;
 }
 
+
 .error{
   color:#d00000;
   font-weight:600;
 }
+
 
 .loading{
   color:#777;
@@ -141,15 +160,19 @@ button:disabled{
 
 </head>
 
+
 <body>
+
 
 <div class="page">
 
 <div class="card">
 
+
 <h1 class="title">
 💬 Private Conversation
 </h1>
+
 
 <div id="messages">
 
@@ -159,10 +182,12 @@ button:disabled{
 
 </div>
 
+
 <textarea
   id="reply"
   placeholder="Write your reply..."
 ></textarea>
+
 
 <button
   id="replyButton"
@@ -171,14 +196,18 @@ button:disabled{
 Reply
 </button>
 
+
 <div id="status"></div>
 
+
 </div>
 
 </div>
+
 
 
 <script>
+
 
 /* =========================
    SUPABASE
@@ -186,6 +215,7 @@ Reply
 
 const SUPABASE_URL =
 "https://merkpcjthrcmjjtlnxkb.supabase.co";
+
 
 const SUPABASE_KEY =
 "sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
@@ -195,6 +225,7 @@ const token =
 new URLSearchParams(
   window.location.search
 ).get("token");
+
 
 
 /* =========================
@@ -230,6 +261,7 @@ function formatDateTime(dateString){
 }
 
 
+
 /* =========================
    MARK OWNER MESSAGES SEEN
 ========================= */
@@ -240,42 +272,73 @@ async function markOwnerMessagesSeen(){
     return;
   }
 
+
   try{
 
-    await fetch(
-      SUPABASE_URL +
-      "/rest/v1/rpc/mark_owner_messages_seen",
-      {
-        method:"POST",
+    const response =
+      await fetch(
 
-        headers:{
-          "Content-Type":
-            "application/json",
+        SUPABASE_URL +
+        "/rest/v1/rpc/mark_owner_messages_seen",
 
-          "apikey":
-            SUPABASE_KEY,
+        {
+          method:"POST",
 
-          "Authorization":
-            "Bearer " +
-            SUPABASE_KEY
-        },
+          headers:{
 
-        body:JSON.stringify({
-          p_token:token
-        })
-      }
+            "Content-Type":
+              "application/json",
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_KEY
+
+          },
+
+          body:JSON.stringify({
+
+            p_token:token
+
+          })
+
+        }
+
+      );
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      "Seen update:",
+      response.status,
+      data
     );
+
+
+    if(!response.ok){
+
+      console.error(
+        "Could not mark messages seen:",
+        data
+      );
+
+    }
 
   }catch(error){
 
     console.error(
-      "Seen status error:",
+      "Seen update error:",
       error
     );
 
   }
 
 }
+
 
 
 /* =========================
@@ -293,11 +356,10 @@ async function loadConversation(){
   if(!token){
 
     box.innerHTML =
-      '<div class="error">' +
-      '❌ No private token found.' +
-      '</div>';
+      '<div class="error">❌ No private token found.</div>';
 
     return;
+
   }
 
 
@@ -305,12 +367,15 @@ async function loadConversation(){
 
     const response =
       await fetch(
+
         SUPABASE_URL +
         "/rest/v1/rpc/get_conversation",
+
         {
           method:"POST",
 
           headers:{
+
             "Content-Type":
               "application/json",
 
@@ -318,14 +383,18 @@ async function loadConversation(){
               SUPABASE_KEY,
 
             "Authorization":
-              "Bearer " +
-              SUPABASE_KEY
+              "Bearer " + SUPABASE_KEY
+
           },
 
           body:JSON.stringify({
+
             p_token:token
+
           })
+
         }
+
       );
 
 
@@ -336,18 +405,21 @@ async function loadConversation(){
     if(!response.ok){
 
       throw new Error(
+
         data.message ||
         data.error ||
         data.hint ||
         "Conversation could not be loaded."
+
       );
 
     }
 
 
     /*
+      IMPORTANT:
       Mark owner messages as seen
-      after the conversation loads.
+      after the conversation successfully loads.
     */
 
     await markOwnerMessagesSeen();
@@ -362,15 +434,15 @@ async function loadConversation(){
     ){
 
       box.innerHTML =
-        '<div class="loading">' +
-        'No messages yet.' +
-        '</div>';
+        '<div class="loading">No messages yet.</div>';
 
       return;
+
     }
 
 
     data.messages.forEach(
+
       function(message){
 
         const item =
@@ -395,47 +467,61 @@ async function loadConversation(){
         }
 
 
-        /* SENDER */
+        /* =========================
+           SENDER
+        ========================= */
 
         const sender =
           document.createElement(
             "div"
           );
 
+
         sender.className =
           "sender";
 
 
         sender.innerText =
+
           message.sender_type ===
           "owner"
+
           ? "Aadhi"
+
           : "You";
 
 
-        /* MESSAGE */
+        /* =========================
+           MESSAGE BODY
+        ========================= */
 
         const body =
           document.createElement(
             "div"
           );
 
+
         body.className =
           "body";
+
 
         body.innerText =
           message.body;
 
 
-        /* TIME */
+        /* =========================
+           TIME
+        ========================= */
 
         const time =
           document.createElement(
             "div"
           );
 
+
         time.className =
           "time";
+
 
         time.innerText =
           formatDateTime(
@@ -447,24 +533,30 @@ async function loadConversation(){
           sender
         );
 
+
         item.appendChild(
           body
         );
 
+
         item.appendChild(
           time
         );
+
 
         box.appendChild(
           item
         );
 
       }
+
     );
+
 
   }catch(error){
 
     console.error(error);
+
 
     box.innerHTML =
       '<div class="error">❌ ' +
@@ -474,6 +566,7 @@ async function loadConversation(){
   }
 
 }
+
 
 
 /* =========================
@@ -487,10 +580,12 @@ async function sendReply(){
       "reply"
     );
 
+
   const button =
     document.getElementById(
       "replyButton"
     );
+
 
   const status =
     document.getElementById(
@@ -511,29 +606,34 @@ async function sendReply(){
       "Write a reply first.";
 
     return;
+
   }
 
 
-  button.disabled = true;
+  button.disabled=true;
 
   button.innerText =
     "Sending...";
 
-  status.className = "";
 
-  status.innerText = "";
+  status.className="";
+
+  status.innerText="";
 
 
   try{
 
     const response =
       await fetch(
+
         SUPABASE_URL +
         "/rest/v1/rpc/send_reply",
+
         {
           method:"POST",
 
           headers:{
+
             "Content-Type":
               "application/json",
 
@@ -541,8 +641,8 @@ async function sendReply(){
               SUPABASE_KEY,
 
             "Authorization":
-              "Bearer " +
-              SUPABASE_KEY
+              "Bearer " + SUPABASE_KEY
+
           },
 
           body:JSON.stringify({
@@ -552,7 +652,9 @@ async function sendReply(){
             p_message:message
 
           })
+
         }
+
       );
 
 
@@ -563,19 +665,22 @@ async function sendReply(){
     if(!response.ok){
 
       throw new Error(
+
         data.message ||
         data.error ||
         data.hint ||
-        "Reply failed."
+        "Could not send reply."
+
       );
 
     }
 
 
-    textarea.value = "";
+    textarea.value="";
+
 
     status.innerText =
-      "✓ Reply sent";
+      "Reply sent ✓";
 
 
     await loadConversation();
@@ -585,22 +690,27 @@ async function sendReply(){
 
     console.error(error);
 
+
     status.className =
       "error";
+
 
     status.innerText =
       "❌ " +
       error.message;
 
+
+  }finally{
+
+    button.disabled=false;
+
+    button.innerText =
+      "Reply";
+
   }
 
-
-  button.disabled = false;
-
-  button.innerText =
-    "Reply";
-
 }
+
 
 
 /* =========================
@@ -611,17 +721,21 @@ loadConversation();
 
 
 /*
-  Refresh every 10 seconds.
-  This also marks new owner
-  messages as seen.
+  Check again every 10 seconds.
+  This also marks newly received
+  owner messages as seen.
 */
 
 setInterval(
+
   loadConversation,
+
   10000
+
 );
 
 </script>
+
 
 </body>
 
