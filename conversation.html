@@ -4,164 +4,905 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>Private Conversation</title>
 
 <style>
-*{box-sizing:border-box;}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
 
 body{
   margin:0;
-  background:#f5f5f7;
-  color:#111;
-  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+  color:#17151d;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(185,150,255,.35),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(255,145,205,.30),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(125,190,255,.25),
+      transparent 40%
+    ),
+    #f5f5f7;
+
+  transition:
+    background .3s ease,
+    color .3s ease;
 }
+
+
+/* =========================
+   BACKGROUND GLOW
+========================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  width:280px;
+  height:280px;
+
+  left:-120px;
+  top:25%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(180,120,255,.22),
+      transparent 70%
+    );
+
+  filter:blur(20px);
+  pointer-events:none;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:300px;
+  height:300px;
+
+  right:-130px;
+  bottom:10%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,130,200,.20),
+      transparent 70%
+    );
+
+  filter:blur(20px);
+  pointer-events:none;
+}
+
+
+/* =========================
+   PAGE
+========================= */
 
 .page{
   min-height:100vh;
-  padding:25px 14px;
+
+  padding:
+    25px 14px 40px;
+
   display:flex;
   justify-content:center;
 }
 
+
+/* =========================
+   MAIN CARD
+========================= */
+
 .card{
   width:100%;
-  max-width:560px;
-  background:#fff;
-  border-radius:24px;
-  padding:25px 20px;
-  box-shadow:0 10px 30px rgba(0,0,0,.07);
+  max-width:600px;
+
+  padding:
+    22px 18px 20px;
+
+  border-radius:28px;
+
+  background:
+    rgba(255,255,255,.72);
+
+  border:
+    1px solid rgba(255,255,255,.75);
+
+  box-shadow:
+    0 20px 60px rgba(80,60,120,.12),
+    inset 0 1px 0 rgba(255,255,255,.9);
+
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+
+  position:relative;
+  z-index:1;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:20px;
+}
+
+.title-area{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.icon{
+  width:44px;
+  height:44px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #eee4ff,
+      #ffdff2
+    );
+
+  font-size:21px;
+
+  box-shadow:
+    0 8px 20px rgba(140,90,190,.13);
 }
 
 .title{
-  margin:0 0 22px;
-  font-size:32px;
+  margin:0;
+
+  font-size:22px;
+  line-height:1.15;
+
+  letter-spacing:-.5px;
 }
+
+.subtitle{
+  margin-top:4px;
+
+  color:#88818f;
+
+  font-size:12px;
+}
+
+
+/* =========================
+   THEME BUTTON
+========================= */
+
+.theme-btn{
+  width:40px;
+  height:40px;
+
+  padding:0;
+  margin:0;
+
+  border:1px solid rgba(0,0,0,.07);
+
+  border-radius:13px;
+
+  background:
+    rgba(255,255,255,.65);
+
+  color:#333;
+
+  font-size:17px;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.2s;
+}
+
+.theme-btn:hover{
+  transform:translateY(-1px);
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.divider{
+  height:1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(120,100,150,.18),
+      transparent
+    );
+
+  margin-bottom:18px;
+}
+
+
+/* =========================
+   MESSAGES
+========================= */
+
+#messages{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
 
 .message{
-  background:#ededee;
-  border-radius:18px;
-  padding:16px;
-  margin:12px 0;
+  max-width:88%;
+
+  padding:13px 15px;
+
+  border-radius:19px;
+
+  background:
+    rgba(255,255,255,.82);
+
+  border:
+    1px solid rgba(255,255,255,.8);
+
+  box-shadow:
+    0 7px 22px rgba(80,60,100,.07);
+
   word-break:break-word;
   white-space:pre-wrap;
+
+  animation:
+    messageIn .25s ease;
 }
+
+@keyframes messageIn{
+
+  from{
+    opacity:0;
+    transform:translateY(5px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+
+/* YOU */
+
+.message:not(.owner){
+  align-self:flex-start;
+
+  border-bottom-left-radius:7px;
+}
+
+
+/* AADHI */
 
 .message.owner{
-  background:#111;
-  color:#fff;
+  align-self:flex-end;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7f55d9,
+      #b05bc9
+    );
+
+  color:white;
+
+  border:
+    0;
+
+  border-bottom-right-radius:7px;
+
+  box-shadow:
+    0 10px 25px rgba(120,75,180,.20);
 }
 
+
+/* =========================
+   SENDER
+========================= */
+
 .sender{
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:7px;
-  color:#777;
+  margin-bottom:5px;
+
+  color:#82798d;
+
+  font-size:11px;
+
+  font-weight:700;
+
+  letter-spacing:.2px;
 }
 
 .owner .sender{
-  color:#bbb;
+  color:rgba(255,255,255,.78);
 }
+
+
+/* =========================
+   MESSAGE BODY
+========================= */
 
 .body{
-  font-size:17px;
-  line-height:1.45;
+  font-size:15.5px;
+
+  line-height:1.48;
 }
 
+
+/* =========================
+   TIME
+========================= */
+
 .time{
-  margin-top:9px;
-  font-size:11px;
-  color:#888;
+  margin-top:8px;
+
+  color:#9a939f;
+
+  font-size:10px;
 }
 
 .owner .time{
-  color:#aaa;
+  color:rgba(255,255,255,.65);
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+  padding:30px 10px;
+
+  text-align:center;
+
+  color:#8c8691;
+
+  font-size:13px;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.error{
+  padding:15px;
+
+  border-radius:15px;
+
+  background:
+    rgba(255,70,100,.08);
+
+  border:
+    1px solid rgba(255,70,100,.15);
+
+  color:#d00035;
+
+  font-size:13px;
+
+  text-align:center;
+}
+
+
+/* =========================
+   REPLY AREA
+========================= */
+
+.reply-area{
+  margin-top:20px;
+
+  padding-top:18px;
+
+  border-top:
+    1px solid rgba(120,100,150,.12);
+}
+
+.reply-label{
+  display:block;
+
+  margin-bottom:8px;
+
+  color:#6f6878;
+
+  font-size:12px;
+
+  font-weight:700;
 }
 
 textarea{
+  display:block;
+
   width:100%;
-  min-height:120px;
-  margin-top:20px;
-  padding:15px;
-  border:1px solid #ddd;
-  border-radius:15px;
-  font-size:17px;
-  font-family:Arial,Helvetica,sans-serif;
+
+  min-height:105px;
+
+  padding:14px 15px;
+
+  border:
+    1px solid rgba(120,100,150,.16);
+
+  border-radius:17px;
+
+  background:
+    rgba(255,255,255,.65);
+
+  color:#17151d;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:15px;
+
+  line-height:1.45;
+
   resize:vertical;
+
   outline:none;
+
+  transition:
+    border .2s,
+    box-shadow .2s,
+    background .2s;
+}
+
+textarea::placeholder{
+  color:#aaa3af;
 }
 
 textarea:focus{
-  border-color:#999;
+  border-color:#a477dc;
+
+  box-shadow:
+    0 0 0 4px rgba(164,119,220,.10);
+
+  background:#fff;
 }
 
-button{
+
+/* =========================
+   REPLY BUTTON
+========================= */
+
+.reply-button{
   width:100%;
-  height:58px;
-  margin-top:12px;
-  background:#111;
-  color:#fff;
+
+  height:52px;
+
+  margin-top:10px;
+
   border:0;
-  border-radius:15px;
-  font-size:17px;
-  font-weight:bold;
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7350d4,
+      #ad5bc9
+    );
+
+  color:#fff;
+
+  font-size:15px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 10px 24px rgba(110,70,180,.20);
+
+  transition:
+    transform .18s,
+    box-shadow .18s,
+    opacity .18s;
 }
 
-button:disabled{
-  opacity:.6;
+.reply-button:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 13px 28px rgba(110,70,180,.25);
 }
 
-.loading{
-  color:#777;
-  text-align:center;
-  padding:20px;
+.reply-button:active{
+  transform:scale(.985);
 }
 
-.error{
-  color:#d00000;
-  font-weight:bold;
+.reply-button:disabled{
+  opacity:.55;
+
+  cursor:not-allowed;
+
+  transform:none;
 }
+
+
+/* =========================
+   STATUS
+========================= */
 
 #status{
+  min-height:18px;
+
+  margin-top:10px;
+
   text-align:center;
-  margin-top:12px;
-  font-size:14px;
+
+  color:#7d7585;
+
+  font-size:12px;
 }
+
+
+/* =========================
+   FOOTER NOTE
+========================= */
+
+.private-note{
+  margin-top:17px;
+
+  padding:11px 13px;
+
+  border-radius:14px;
+
+  background:
+    rgba(125,90,180,.07);
+
+  border:
+    1px solid rgba(125,90,180,.10);
+
+  color:#766d80;
+
+  font-size:10.5px;
+
+  line-height:1.45;
+
+  text-align:center;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+.dark{
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(125,80,190,.28),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(190,70,140,.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(50,100,180,.20),
+      transparent 40%
+    ),
+    #111016;
+
+  color:#f5f2f8;
+}
+
+.dark .card{
+  background:
+    rgba(25,22,32,.78);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.dark .icon{
+  background:
+    linear-gradient(
+      135deg,
+      #30234b,
+      #43253b
+    );
+}
+
+.dark .subtitle{
+  color:#96909e;
+}
+
+.dark .theme-btn{
+  background:
+    rgba(255,255,255,.07);
+
+  border-color:
+    rgba(255,255,255,.08);
+
+  color:#eee;
+}
+
+.dark .divider{
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.10),
+      transparent
+    );
+}
+
+.dark .message:not(.owner){
+  background:
+    rgba(255,255,255,.065);
+
+  border-color:
+    rgba(255,255,255,.07);
+
+  color:#f2eef6;
+}
+
+.dark .sender{
+  color:#aaa2b1;
+}
+
+.dark .time{
+  color:#8f8895;
+}
+
+.dark .reply-area{
+  border-color:
+    rgba(255,255,255,.08);
+}
+
+.dark .reply-label{
+  color:#aaa2b1;
+}
+
+.dark textarea{
+  background:
+    rgba(255,255,255,.055);
+
+  border-color:
+    rgba(255,255,255,.10);
+
+  color:#f5f2f8;
+}
+
+.dark textarea:focus{
+  background:
+    rgba(255,255,255,.08);
+
+  border-color:#9871d1;
+}
+
+.dark textarea::placeholder{
+  color:#77717d;
+}
+
+.dark .private-note{
+  background:
+    rgba(130,90,190,.10);
+
+  border-color:
+    rgba(160,120,220,.14);
+
+  color:#aaa1b2;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:480px){
+
+  .page{
+    padding:
+      14px 10px 25px;
+  }
+
+  .card{
+    padding:
+      18px 14px 16px;
+
+    border-radius:24px;
+  }
+
+  .title{
+    font-size:20px;
+  }
+
+  .icon{
+    width:40px;
+    height:40px;
+
+    border-radius:13px;
+
+    font-size:19px;
+  }
+
+  .theme-btn{
+    width:37px;
+    height:37px;
+  }
+
+  .message{
+    max-width:92%;
+
+    padding:
+      12px 13px;
+
+    border-radius:17px;
+  }
+
+  .body{
+    font-size:15px;
+  }
+
+  textarea{
+    min-height:95px;
+
+    font-size:15px;
+  }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
 <div class="page">
-<div class="card">
 
-<h1 class="title">
-💬 Private Conversation
-</h1>
+  <div class="card">
 
-<div id="messages">
-<div class="loading">
-Loading conversation...
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <div class="title-area">
+
+        <div class="icon">
+          💬
+        </div>
+
+        <div>
+
+          <h1 class="title">
+            Private conversation
+          </h1>
+
+          <div class="subtitle">
+            Your messages stay in this private link
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="theme-btn"
+        id="themeButton"
+        onclick="toggleTheme()"
+        aria-label="Toggle theme"
+      >
+        ☾
+      </button>
+
+    </div>
+
+
+    <div class="divider"></div>
+
+
+    <!-- MESSAGES -->
+
+    <div id="messages">
+
+      <div class="loading">
+        Loading conversation...
+      </div>
+
+    </div>
+
+
+    <!-- REPLY -->
+
+    <div class="reply-area">
+
+      <label
+        class="reply-label"
+        for="reply"
+      >
+        Send a reply
+      </label>
+
+
+      <textarea
+        id="reply"
+        placeholder="Write your reply..."
+      ></textarea>
+
+
+      <button
+        class="reply-button"
+        id="replyButton"
+        onclick="sendReply()"
+      >
+        Reply
+      </button>
+
+
+      <div id="status"></div>
+
+    </div>
+
+
+    <div class="private-note">
+      This conversation is private. Keep this link safe so you can return later.
+    </div>
+
+  </div>
+
 </div>
-</div>
 
-<textarea
-id="reply"
-placeholder="Write your reply..."
-></textarea>
-
-<button
-id="replyButton"
-onclick="sendReply()"
->
-Reply
-</button>
-
-<div id="status"></div>
-
-</div>
-</div>
 
 <script>
+
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://merkpcjthrcmjjtlnxkb.supabase.co";
@@ -169,32 +910,105 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
 
+
+/* =========================
+   TOKEN
+========================= */
+
 const token =
 new URLSearchParams(
-window.location.search
+  window.location.search
 ).get("token");
 
 
+/* =========================
+   THEME
+========================= */
+
+function applyTheme(){
+
+  const savedTheme =
+    localStorage.getItem("conversationTheme");
+
+  const isDark =
+    savedTheme === "dark";
+
+  document.body.classList.toggle(
+    "dark",
+    isDark
+  );
+
+  const button =
+    document.getElementById("themeButton");
+
+  if(button){
+
+    button.innerText =
+      isDark ? "☀" : "☾";
+
+  }
+
+}
+
+
+function toggleTheme(){
+
+  const isDark =
+    document.body.classList.contains("dark");
+
+  localStorage.setItem(
+    "conversationTheme",
+    isDark ? "light" : "dark"
+  );
+
+  applyTheme();
+
+}
+
+
+applyTheme();
+
+
+/* =========================
+   DATE / TIME
+========================= */
+
 function formatDateTime(value){
 
-  if(!value) return "";
+  if(!value){
+    return "";
+  }
 
-  const date = new Date(value);
+  const date =
+    new Date(value);
 
-  if(isNaN(date.getTime())) return "";
+  if(
+    isNaN(
+      date.getTime()
+    )
+  ){
+    return "";
+  }
 
   return new Intl.DateTimeFormat(
     "en-IN",
     {
       timeZone:"Asia/Kolkata",
+
       day:"numeric",
+
       month:"short",
+
       year:"numeric",
+
       hour:"numeric",
+
       minute:"2-digit",
+
       hour12:true
     }
   ).format(date);
+
 }
 
 
@@ -218,13 +1032,15 @@ async function markOwnerMessagesSeen(){
         method:"POST",
 
         headers:{
-          "Content-Type":"application/json",
+          "Content-Type":
+            "application/json",
 
           "apikey":
             SUPABASE_KEY,
 
           "Authorization":
-            "Bearer " + SUPABASE_KEY
+            "Bearer " +
+            SUPABASE_KEY
         },
 
         body:JSON.stringify({
@@ -261,6 +1077,7 @@ async function markOwnerMessagesSeen(){
     );
 
   }
+
 }
 
 
@@ -271,15 +1088,18 @@ async function markOwnerMessagesSeen(){
 async function loadConversation(){
 
   const box =
-  document.getElementById("messages");
+    document.getElementById(
+      "messages"
+    );
 
 
   if(!token){
 
     box.innerHTML =
-    '<div class="error">❌ Invalid private link.</div>';
+      '<div class="error">❌ Invalid private link.</div>';
 
     return;
+
   }
 
 
@@ -293,13 +1113,15 @@ async function loadConversation(){
         method:"POST",
 
         headers:{
-          "Content-Type":"application/json",
+          "Content-Type":
+            "application/json",
 
           "apikey":
             SUPABASE_KEY,
 
           "Authorization":
-            "Bearer " + SUPABASE_KEY
+            "Bearer " +
+            SUPABASE_KEY
         },
 
         body:JSON.stringify({
@@ -310,7 +1132,7 @@ async function loadConversation(){
 
 
     const data =
-    await response.json();
+      await response.json();
 
 
     if(!response.ok){
@@ -326,7 +1148,7 @@ async function loadConversation(){
 
 
     /*
-      The page has successfully opened.
+      The conversation opened successfully.
       Mark owner's messages as seen.
     */
 
@@ -338,83 +1160,123 @@ async function loadConversation(){
 
     if(
       !data.messages ||
-      data.messages.length===0
+      data.messages.length === 0
     ){
 
       box.innerHTML =
-      '<div class="loading">No messages yet.</div>';
+        '<div class="loading">No messages yet.</div>';
 
       return;
+
     }
 
 
-    data.messages.forEach(function(m){
+    data.messages.forEach(
+      function(m){
 
-      const message =
-      document.createElement("div");
+        const message =
+          document.createElement(
+            "div"
+          );
 
-      message.className="message";
+
+        message.className =
+          "message";
 
 
-      if(
-        m.sender_type === "owner"
-      ){
+        if(
+          m.sender_type === "owner"
+        ){
 
-        message.classList.add("owner");
+          message.classList.add(
+            "owner"
+          );
+
+        }
+
+
+        /* SENDER */
+
+        const sender =
+          document.createElement(
+            "div"
+          );
+
+        sender.className =
+          "sender";
+
+
+        sender.innerText =
+          m.sender_type === "owner"
+          ? "Aadhi"
+          : "You";
+
+
+        /* MESSAGE */
+
+        const body =
+          document.createElement(
+            "div"
+          );
+
+        body.className =
+          "body";
+
+
+        body.innerText =
+          m.body || "";
+
+
+        /* TIME */
+
+        const time =
+          document.createElement(
+            "div"
+          );
+
+        time.className =
+          "time";
+
+
+        time.innerText =
+          formatDateTime(
+            m.created_at
+          );
+
+
+        message.appendChild(
+          sender
+        );
+
+        message.appendChild(
+          body
+        );
+
+        message.appendChild(
+          time
+        );
+
+
+        box.appendChild(
+          message
+        );
 
       }
-
-
-      const sender =
-      document.createElement("div");
-
-      sender.className="sender";
-
-      sender.innerText =
-      m.sender_type === "owner"
-      ? "Aadhi"
-      : "You";
-
-
-      const body =
-      document.createElement("div");
-
-      body.className="body";
-
-      body.innerText =
-      m.body || "";
-
-
-      const time =
-      document.createElement("div");
-
-      time.className="time";
-
-      time.innerText =
-      formatDateTime(
-        m.created_at
-      );
-
-
-      message.appendChild(sender);
-      message.appendChild(body);
-      message.appendChild(time);
-
-      box.appendChild(message);
-
-    });
+    );
 
 
   }catch(error){
 
     console.error(error);
 
+
     box.innerHTML =
-    '<div class="error">❌ ' +
-    error.message +
-    '</div>';
+      '<div class="error">❌ ' +
+      error.message +
+      '</div>';
 
   }
+
 }
 
 
@@ -425,30 +1287,56 @@ async function loadConversation(){
 async function sendReply(){
 
   const textarea =
-  document.getElementById("reply");
+    document.getElementById(
+      "reply"
+    );
 
   const button =
-  document.getElementById("replyButton");
+    document.getElementById(
+      "replyButton"
+    );
 
   const status =
-  document.getElementById("status");
+    document.getElementById(
+      "status"
+    );
 
 
   const message =
-  textarea.value.trim();
+    textarea.value.trim();
 
 
   if(!message){
 
+    status.className="";
+
     status.innerText =
-    "Write a reply first.";
+      "Write a reply first.";
 
     return;
+
+  }
+
+
+  if(!token){
+
+    status.className="error";
+
+    status.innerText =
+      "❌ Invalid private link.";
+
+    return;
+
   }
 
 
   button.disabled=true;
-  button.innerText="Sending...";
+
+  button.innerText =
+    "Sending...";
+
+  status.className="";
+
   status.innerText="";
 
 
@@ -462,13 +1350,15 @@ async function sendReply(){
         method:"POST",
 
         headers:{
-          "Content-Type":"application/json",
+          "Content-Type":
+            "application/json",
 
           "apikey":
             SUPABASE_KEY,
 
           "Authorization":
-            "Bearer " + SUPABASE_KEY
+            "Bearer " +
+            SUPABASE_KEY
         },
 
         body:JSON.stringify({
@@ -480,7 +1370,7 @@ async function sendReply(){
 
 
     const data =
-    await response.json();
+      await response.json();
 
 
     if(!response.ok){
@@ -497,8 +1387,11 @@ async function sendReply(){
 
     textarea.value="";
 
+
+    status.className="";
+
     status.innerText =
-    "Reply sent ✓";
+      "Reply sent ✓";
 
 
     await loadConversation();
@@ -508,18 +1401,56 @@ async function sendReply(){
 
     console.error(error);
 
-    status.className="error";
+
+    status.className =
+      "error";
 
     status.innerText =
-    "❌ " + error.message;
+      "❌ " +
+      error.message;
+
 
   }finally{
 
     button.disabled=false;
-    button.innerText="Reply";
+
+    button.innerText =
+      "Reply";
 
   }
+
 }
+
+
+/* =========================
+   ENTER KEY
+========================= */
+
+document
+  .getElementById("reply")
+  .addEventListener(
+    "keydown",
+    function(event){
+
+      /*
+        Ctrl + Enter / Cmd + Enter
+        sends the reply.
+      */
+
+      if(
+        (event.ctrlKey ||
+         event.metaKey) &&
+        event.key === "Enter"
+      ){
+
+        event.preventDefault();
+
+        sendReply();
+
+      }
+
+    }
+  );
 
 
 /* =========================
@@ -527,6 +1458,12 @@ async function sendReply(){
 ========================= */
 
 loadConversation();
+
+
+/*
+  Automatically refresh
+  conversation every 10 seconds.
+*/
 
 setInterval(
   loadConversation,
@@ -536,4 +1473,4 @@ setInterval(
 </script>
 
 </body>
-</html>
+  </html>
