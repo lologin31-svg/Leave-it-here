@@ -21,10 +21,7 @@ body{
   margin:0;
   min-height:100vh;
   color:#17151d;
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
 
   background:
     radial-gradient(
@@ -49,17 +46,11 @@ body{
     color .3s ease;
 }
 
-
-/* =========================
-   BACKGROUND GLOW
-========================= */
-
 body::before{
   content:"";
   position:fixed;
   width:280px;
   height:280px;
-
   left:-120px;
   top:25%;
 
@@ -79,7 +70,6 @@ body::after{
   position:fixed;
   width:300px;
   height:300px;
-
   right:-130px;
   bottom:10%;
 
@@ -111,7 +101,7 @@ body::after{
 
 
 /* =========================
-   MAIN CARD
+   CARD
 ========================= */
 
 .card{
@@ -211,7 +201,8 @@ body::after{
   padding:0;
   margin:0;
 
-  border:1px solid rgba(0,0,0,.07);
+  border:
+    1px solid rgba(0,0,0,.07);
 
   border-radius:13px;
 
@@ -312,7 +303,6 @@ body::after{
 
 .message:not(.owner){
   align-self:flex-start;
-
   border-bottom-left-radius:7px;
 }
 
@@ -331,8 +321,7 @@ body::after{
 
   color:white;
 
-  border:
-    0;
+  border:0;
 
   border-bottom-right-radius:7px;
 
@@ -363,12 +352,11 @@ body::after{
 
 
 /* =========================
-   MESSAGE BODY
+   BODY
 ========================= */
 
 .body{
   font-size:15.5px;
-
   line-height:1.48;
 }
 
@@ -391,40 +379,48 @@ body::after{
 
 
 /* =========================
-   LOADING
+   WAITING MESSAGE
 ========================= */
 
-.loading{
-  padding:30px 10px;
+.waiting{
+  margin-top:18px;
 
-  text-align:center;
+  padding:16px 15px;
 
-  color:#8c8691;
-
-  font-size:13px;
-}
-
-
-/* =========================
-   ERROR
-========================= */
-
-.error{
-  padding:15px;
-
-  border-radius:15px;
+  border-radius:17px;
 
   background:
-    rgba(255,70,100,.08);
+    linear-gradient(
+      135deg,
+      rgba(126,85,217,.08),
+      rgba(176,91,201,.07)
+    );
 
   border:
-    1px solid rgba(255,70,100,.15);
+    1px solid rgba(126,85,217,.13);
 
-  color:#d00035;
+  text-align:center;
+
+  animation:
+    messageIn .3s ease;
+}
+
+.waiting-title{
+  color:#5f4b7d;
 
   font-size:13px;
 
-  text-align:center;
+  font-weight:800;
+
+  margin-bottom:6px;
+}
+
+.waiting-text{
+  color:#85808c;
+
+  font-size:11px;
+
+  line-height:1.5;
 }
 
 
@@ -727,6 +723,26 @@ textarea:focus{
   color:#77717d;
 }
 
+.dark .waiting{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(126,85,217,.13),
+      rgba(176,91,201,.11)
+    );
+
+  border-color:
+    rgba(160,120,220,.16);
+}
+
+.dark .waiting-title{
+  color:#c7b5e5;
+}
+
+.dark .waiting-text{
+  color:#9c95a5;
+}
+
 .dark .private-note{
   background:
     rgba(130,90,190,.10);
@@ -856,6 +872,26 @@ textarea:focus{
     </div>
 
 
+    <!-- WAITING MESSAGE -->
+
+    <div
+      id="waitingMessage"
+      class="waiting"
+      style="display:none;"
+    >
+
+      <div class="waiting-title">
+        Waiting for Aadhi to reply…
+      </div>
+
+      <div class="waiting-text">
+        You can come back anytime using the link you copied.
+        Paste it into any browser to return to this conversation.
+      </div>
+
+    </div>
+
+
     <!-- REPLY -->
 
     <div class="reply-area">
@@ -928,7 +964,9 @@ new URLSearchParams(
 function applyTheme(){
 
   const savedTheme =
-    localStorage.getItem("conversationTheme");
+    localStorage.getItem(
+      "conversationTheme"
+    );
 
   const isDark =
     savedTheme === "dark";
@@ -939,7 +977,9 @@ function applyTheme(){
   );
 
   const button =
-    document.getElementById("themeButton");
+    document.getElementById(
+      "themeButton"
+    );
 
   if(button){
 
@@ -954,7 +994,9 @@ function applyTheme(){
 function toggleTheme(){
 
   const isDark =
-    document.body.classList.contains("dark");
+    document.body.classList.contains(
+      "dark"
+    );
 
   localStorage.setItem(
     "conversationTheme",
@@ -1051,7 +1093,7 @@ async function markOwnerMessagesSeen(){
 
 
     const data =
-    await response.json();
+      await response.json();
 
 
     console.log(
@@ -1092,11 +1134,19 @@ async function loadConversation(){
       "messages"
     );
 
+  const waiting =
+    document.getElementById(
+      "waitingMessage"
+    );
+
 
   if(!token){
 
     box.innerHTML =
       '<div class="error">❌ Invalid private link.</div>';
+
+    waiting.style.display =
+      "none";
 
     return;
 
@@ -1166,10 +1216,46 @@ async function loadConversation(){
       box.innerHTML =
         '<div class="loading">No messages yet.</div>';
 
+      waiting.style.display =
+        "block";
+
       return;
 
     }
 
+
+    /*
+      Check whether Aadhi has replied.
+    */
+
+    const hasOwnerReply =
+      data.messages.some(
+        function(m){
+
+          return (
+            m.sender_type === "owner"
+          );
+
+        }
+      );
+
+
+    if(hasOwnerReply){
+
+      waiting.style.display =
+        "none";
+
+    }else{
+
+      waiting.style.display =
+        "block";
+
+    }
+
+
+    /* =========================
+       DISPLAY MESSAGES
+    ========================= */
 
     data.messages.forEach(
       function(m){
@@ -1212,7 +1298,7 @@ async function loadConversation(){
           : "You";
 
 
-        /* MESSAGE */
+        /* MESSAGE BODY */
 
         const body =
           document.createElement(
@@ -1268,6 +1354,10 @@ async function loadConversation(){
   }catch(error){
 
     console.error(error);
+
+
+    waiting.style.display =
+      "none";
 
 
     box.innerHTML =
@@ -1423,7 +1513,7 @@ async function sendReply(){
 
 
 /* =========================
-   ENTER KEY
+   CTRL + ENTER
 ========================= */
 
 document
@@ -1431,11 +1521,6 @@ document
   .addEventListener(
     "keydown",
     function(event){
-
-      /*
-        Ctrl + Enter / Cmd + Enter
-        sends the reply.
-      */
 
       if(
         (event.ctrlKey ||
@@ -1461,8 +1546,9 @@ loadConversation();
 
 
 /*
-  Automatically refresh
-  conversation every 10 seconds.
+  Refresh every 10 seconds.
+  This also checks whether
+  Aadhi has replied.
 */
 
 setInterval(
@@ -1473,4 +1559,4 @@ setInterval(
 </script>
 
 </body>
-  </html>
+            </html>
