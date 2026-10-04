@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anonymous Message</title>
+<title>Leave it here.</title>
 
 <style>
 *{box-sizing:border-box}
@@ -275,11 +275,95 @@ color:transparent
 
 .sub{
 text-align:center;
-margin:8px auto 0;
+margin:9px auto 0;
 color:#565d6d;
 font-size:13.5px;
-font-weight:bold
+font-weight:bold;
+line-height:1.5
 }
+
+
+/* PURPOSE BUTTON */
+
+.purpose-wrap{
+margin:11px auto 0;
+width:100%;
+max-width:390px
+}
+
+.purpose-button{
+width:100%;
+height:42px;
+border-radius:14px;
+border:1px solid #ddd5f1;
+background:#ffffffc9;
+color:#4c4660;
+font-size:12.5px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 5px 16px #55417d12;
+transition:.25s ease;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:7px
+}
+
+.purpose-button:active{
+transform:scale(.98)
+}
+
+.purpose-icon{
+font-size:15px;
+font-weight:normal
+}
+
+.purpose-arrow{
+font-size:14px;
+transition:.25s ease
+}
+
+.purpose-button.open .purpose-arrow{
+transform:rotate(180deg)
+}
+
+.purpose-text{
+max-height:0;
+overflow:hidden;
+opacity:0;
+margin:0;
+padding:0 13px;
+border-radius:14px;
+background:#ffffffd9;
+border:1px solid transparent;
+color:#555b69;
+font-size:12px;
+font-weight:bold;
+line-height:1.55;
+transition:
+max-height .35s ease,
+opacity .25s ease,
+margin .35s ease,
+padding .35s ease
+}
+
+.purpose-text.show{
+max-height:220px;
+opacity:1;
+margin-top:7px;
+padding:13px;
+border-color:#e2dcef
+}
+
+.purpose-text strong{
+display:block;
+color:#292638;
+margin-bottom:5px;
+font-size:12.5px
+}
+
+
+/* FORM */
 
 .form{
 margin-top:12px;
@@ -456,7 +540,7 @@ font-size:11px
 }
 
 
-/* IMPORTANT PRIVATE LINK INSTRUCTION */
+/* PRIVATE LINK INSTRUCTION */
 
 .private-note{
 margin:11px 0 3px;
@@ -474,7 +558,6 @@ line-height:1.5;
 font-weight:800;
 box-shadow:0 6px 18px #17132335
 }
-
 
 .copy,.open{
 width:100%;
@@ -569,6 +652,28 @@ box-shadow:0 7px 22px #00000055
 background:#292636;
 color:#fff;
 border-color:#494354
+}
+
+
+/* DARK PURPOSE */
+
+.dark .purpose-button{
+background:#242132e8;
+border-color:#4a4260;
+color:#d0cadf
+}
+
+.dark .purpose-text{
+background:#242132e8;
+color:#bdb8c8
+}
+
+.dark .purpose-text.show{
+border-color:#4a4260
+}
+
+.dark .purpose-text strong{
+color:#f2eff8
 }
 </style>
 </head>
@@ -668,7 +773,35 @@ Leave it
 
 
 <div class="sub">
-Say what you want without revealing who you are.
+Ask. Say. Share.<br>
+Whatever’s on your mind, share it anonymously.
+</div>
+
+
+<!-- PURPOSE / HOW IT WORKS -->
+
+<div class="purpose-wrap">
+
+<button
+type="button"
+class="purpose-button"
+id="purposeButton"
+onclick="togglePurpose()"
+>
+<span class="purpose-icon">ⓘ</span>
+<span>what can you say?</span>
+<span class="purpose-arrow">↓</span>
+</button>
+
+<div
+class="purpose-text"
+id="purposeText"
+>
+<strong>You can say what you can't say directly.</strong>
+
+Ask a question, share a thought, make a suggestion, or simply get something off your mind. Type it here and send it anonymously — your identity stays private.
+</div>
+
 </div>
 
 
@@ -790,6 +923,27 @@ headers:{
 body:"{}"
 }
 ).catch(()=>{});
+
+
+/* PURPOSE BUTTON */
+
+function togglePurpose(){
+
+const button=
+document.getElementById("purposeButton");
+
+const text=
+document.getElementById("purposeText");
+
+const isOpen=
+text.classList.toggle("show");
+
+button.classList.toggle(
+"open",
+isOpen
+);
+
+}
 
 
 /* THEME */
@@ -935,7 +1089,7 @@ nameInput,
 
 typing(
 messageInput,
-"Write whatever you want to say..."
+"Ask, say, share..."
 );
 
 
@@ -1192,10 +1346,10 @@ data.error||
 }
 
 
-/* CORRECT URL */
+/* NEW GITHUB PAGES URL */
 
 const link=
-"https://lologin31-svg.github.io/secrets/conversation.html?token="+
+"https://lologin31-svg.github.io/Leave-it-here/conversation.html?token="+
 encodeURIComponent(t);
 
 
@@ -1230,7 +1384,7 @@ l.innerText=link;
 box.appendChild(l);
 
 
-/* IMPORTANT PRIVATE LINK INSTRUCTION */
+/* PRIVATE LINK INSTRUCTION */
 
 const note=
 document.createElement("p");
