@@ -22,73 +22,58 @@ linear-gradient(145deg,#f5f1ff,#fff7fb,#eff8ff);
 overflow-x:hidden
 }
 
-.bg{
-position:fixed;
-inset:0;
-overflow:hidden;
-pointer-events:none
-}
+/* BACKGROUND */
 
-.orb,.light,.spark,.p{
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+
+.orb,.light,.p{
 position:absolute;
 border-radius:50%
 }
 
 .o1{
-width:170px;
-height:170px;
-left:-60px;
-top:5%;
+width:170px;height:170px;
+left:-60px;top:5%;
 background:#a98cff88;
 filter:blur(3px);
 animation:a 9s infinite
 }
 
 .o2{
-width:190px;
-height:190px;
-right:-70px;
-top:35%;
+width:190px;height:190px;
+right:-70px;top:35%;
 background:#ff9bd288;
 filter:blur(3px);
 animation:b 11s infinite
 }
 
 .o3{
-width:130px;
-height:130px;
-left:5%;
-bottom:-30px;
+width:130px;height:130px;
+left:5%;bottom:-30px;
 background:#7edbff88;
 filter:blur(3px);
 animation:c 10s infinite
 }
 
 .l1{
-width:230px;
-height:230px;
-left:15%;
-top:-80px;
+width:230px;height:230px;
+left:15%;top:-80px;
 background:#c7a7ff55;
 filter:blur(35px);
 animation:a 8s infinite
 }
 
 .l2{
-width:230px;
-height:230px;
-right:5%;
-top:55%;
+width:230px;height:230px;
+right:5%;top:55%;
 background:#ff9ed955;
 filter:blur(35px);
 animation:b 10s infinite
 }
 
 .l3{
-width:200px;
-height:200px;
-left:-50px;
-bottom:5%;
+width:200px;height:200px;
+left:-50px;bottom:5%;
 background:#86ddff55;
 filter:blur(35px);
 animation:c 9s infinite
@@ -169,6 +154,8 @@ opacity:.9
 }
 }
 
+/* CARD */
+
 .card{
 position:relative;
 z-index:2;
@@ -181,6 +168,8 @@ border:1px solid #fff;
 box-shadow:0 22px 60px #4a337d24;
 backdrop-filter:blur(24px)
 }
+
+/* THEME */
 
 .theme{
 position:absolute;
@@ -220,6 +209,8 @@ animation:r 3s linear infinite
 to{transform:rotate(360deg)}
 }
 
+/* LOGO */
+
 .logo{
 width:66px;
 height:66px;
@@ -230,6 +221,8 @@ margin:auto
 width:100%;
 height:100%
 }
+
+/* BADGE */
 
 .badge{
 width:max-content;
@@ -252,6 +245,8 @@ border-radius:50%;
 background:#8b68ef
 }
 
+/* TITLE */
+
 h1{
 text-align:center;
 margin:9px 0 0;
@@ -273,100 +268,102 @@ background:linear-gradient(
 color:transparent
 }
 
-.sub{
+/* INFO */
+
+.info{
 text-align:center;
-margin:9px auto 0;
-color:#565d6d;
-font-size:13.5px;
-font-weight:bold;
-line-height:1.5
+margin:7px 0 5px;
+height:25px
 }
 
-
-/* PURPOSE BUTTON */
-
-.purpose-wrap{
-margin:11px auto 0;
-width:100%;
-max-width:390px
-}
-
-.purpose-button{
-width:100%;
-height:42px;
-border-radius:14px;
-border:1px solid #ddd5f1;
-background:#ffffffc9;
-color:#4c4660;
-font-size:12.5px;
-font-weight:bold;
+.info button{
+border:0;
+background:transparent;
+color:#756b91;
+font-size:12px;
+font-weight:600;
+padding:4px 7px;
 cursor:pointer;
-box-shadow:0 5px 16px #55417d12;
-transition:.25s ease;
-display:flex;
+display:inline-flex;
+align-items:center;
+gap:6px
+}
+
+.info .icon{
+display:inline-flex;
 align-items:center;
 justify-content:center;
-gap:7px
+width:19px;
+height:19px;
+border-radius:50%;
+background:#fff;
+color:#756b91;
+box-shadow:
+0 0 5px #b79cff,
+0 0 12px #b79cff88,
+0 0 22px #d9b8ff66;
+animation:infoLight 2s ease-in-out infinite
 }
 
-.purpose-button:active{
-transform:scale(.98)
+.info .words{
+opacity:1;
+transition:.4s ease
 }
 
-.purpose-icon{
-font-size:15px;
-font-weight:normal
-}
-
-.purpose-arrow{
-font-size:14px;
-transition:.25s ease
-}
-
-.purpose-button.open .purpose-arrow{
-transform:rotate(180deg)
-}
-
-.purpose-text{
+.info-box{
 max-height:0;
 overflow:hidden;
 opacity:0;
-margin:0;
-padding:0 13px;
-border-radius:14px;
-background:#ffffffd9;
+max-width:390px;
+margin:0 auto;
+padding:0 12px;
+border-radius:13px;
+background:#ffffffdc;
 border:1px solid transparent;
 color:#555b69;
-font-size:12px;
-font-weight:bold;
-line-height:1.55;
-transition:
-max-height .35s ease,
-opacity .25s ease,
-margin .35s ease,
-padding .35s ease
+font-size:11.5px;
+line-height:1.5;
+font-weight:600;
+transition:.4s ease
 }
 
-.purpose-text.show{
-max-height:220px;
+.info-box.show{
+max-height:180px;
 opacity:1;
-margin-top:7px;
-padding:13px;
+margin:5px auto 8px;
+padding:11px 12px;
 border-color:#e2dcef
 }
 
-.purpose-text strong{
+.info-box strong{
 display:block;
+margin-bottom:4px;
 color:#292638;
-margin-bottom:5px;
-font-size:12.5px
+font-size:13px
 }
 
+@keyframes infoLight{
+0%,100%{
+transform:scale(1);
+box-shadow:
+0 0 5px #b79cff,
+0 0 12px #b79cff88,
+0 0 22px #d9b8ff66
+}
+
+50%{
+transform:scale(1.1);
+box-shadow:
+0 0 7px #b79cff,
+0 0 18px #b79cffaa,
+0 0 30px #d9b8ff88
+}
+}
 
 /* FORM */
 
 .form{
-margin-top:12px;
+margin-top:10px;
 padding:12px;
 border-radius:20px;
 background:#ffffffee;
@@ -419,12 +416,14 @@ height:112px;
 resize:none
 }
 
-input:focus,textarea:focus{
+input:focus,
+textarea:focus{
 border-color:#8667e8;
 box-shadow:0 0 0 4px #8667e81a
 }
 
-input::placeholder,textarea::placeholder{
+input::placeholder,
+textarea::placeholder{
 color:#8e91a0
 }
 
@@ -459,6 +458,8 @@ font-weight:bold;
 box-shadow:0 10px 23px #362c6433
 }
 
+/* TRUST */
+
 .trust{
 margin-top:8px;
 padding:10px 11px;
@@ -490,6 +491,8 @@ font-size:10.5px;
 font-weight:bold
 }
 
+/* SUCCESS */
+
 .success{
 margin-top:15px;
 padding:15px;
@@ -507,11 +510,7 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-background:linear-gradient(
-135deg,
-#8a72ee,
-#d45acb
-);
+background:linear-gradient(135deg,#8a72ee,#d45acb);
 color:white;
 font-size:24px;
 font-weight:bold
@@ -539,9 +538,6 @@ word-break:break-all;
 font-size:11px
 }
 
-
-/* PRIVATE LINK INSTRUCTION */
-
 .private-note{
 margin:11px 0 3px;
 padding:13px 14px;
@@ -552,7 +548,7 @@ background:linear-gradient(
 #29243a
 );
 border:1px solid #6d5a9c;
-color:#ffffff;
+color:#fff;
 font-size:12px;
 line-height:1.5;
 font-weight:800;
@@ -567,6 +563,12 @@ border-radius:12px;
 font-weight:bold
 }
 
+.copy{
+border:0;
+background:#eeeaff;
+color:#4f3f86
+}
+
 .open{
 background:#fff;
 color:#17181b;
@@ -574,8 +576,7 @@ border:1px solid #ddd;
 box-shadow:none
 }
 
-
-/* DARK THEME */
+/* DARK */
 
 .dark{
 color:#f5f2ff;
@@ -596,10 +597,6 @@ linear-gradient(
 .dark .card{
 background:#1b192be8;
 border-color:#ffffff12
-}
-
-.dark .sub{
-color:#bcb8c9
 }
 
 .dark .form{
@@ -644,8 +641,13 @@ background:linear-gradient(
 #242033
 );
 border-color:#7661aa;
-color:#ffffff;
+color:#fff;
 box-shadow:0 7px 22px #00000055
+}
+
+.dark .copy{
+background:#332c4b;
+color:#ddd5f8
 }
 
 .dark .open{
@@ -654,26 +656,26 @@ color:#fff;
 border-color:#494354
 }
 
-
-/* DARK PURPOSE */
-
-.dark .purpose-button{
-background:#242132e8;
-border-color:#4a4260;
-color:#d0cadf
+.dark .info .icon{
+background:#29243a;
+color:#eee8ff
 }
 
-.dark .purpose-text{
-background:#242132e8;
+.dark .info{
+color:#c8c1d8
+}
+
+.dark .info-box{
+background:#242132ee;
 color:#bdb8c8
 }
 
-.dark .purpose-text.show{
-border-color:#4a4260
+.dark .info-box strong{
+color:#f2eff8
 }
 
-.dark .purpose-text strong{
-color:#f2eff8
+.dark .info-box.show{
+border-color:#4a4260
 }
 </style>
 </head>
@@ -681,7 +683,6 @@ color:#f2eff8
 <body>
 
 <div class="bg">
-
 <div class="orb o1"></div>
 <div class="orb o2"></div>
 <div class="orb o3"></div>
@@ -698,25 +699,16 @@ color:#f2eff8
 <div class="p p3"></div>
 <div class="p p4"></div>
 <div class="p p5"></div>
-
 </div>
-
 
 <div class="card">
 
-<button
-class="theme"
-id="theme"
-onclick="themeMode()"
->☾</button>
+<button class="theme" id="theme" onclick="themeMode()">☾</button>
 
+<!-- LOGO -->
 
 <div class="logo">
-
-<svg
-viewBox="0 0 100 100"
-xmlns="http://www.w3.org/2000/svg"
->
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 
 <circle
 cx="50"
@@ -756,54 +748,50 @@ stroke-linejoin="round"
 />
 
 </svg>
-
 </div>
 
+<!-- BADGE -->
 
 <div class="badge">
 <span class="dot"></span>
 Private &amp; anonymous
 </div>
 
+<!-- TITLE -->
 
 <h1>
 Leave it
 <span>here.</span>
 </h1>
 
+<!-- INFO -->
 
-<div class="sub">
-Ask. Say. Share.<br>
-Whatever’s on your mind, share it anonymously.
-</div>
+<div class="info" id="info">
 
+<button onclick="infoClick()">
 
-<!-- PURPOSE / HOW IT WORKS -->
+<span class="icon">ⓘ</span>
 
-<div class="purpose-wrap">
+<span class="words">
+what is this?
+</span>
 
-<button
-type="button"
-class="purpose-button"
-id="purposeButton"
-onclick="togglePurpose()"
->
-<span class="purpose-icon">ⓘ</span>
-<span>what can you say?</span>
-<span class="purpose-arrow">↓</span>
 </button>
 
-<div
-class="purpose-text"
-id="purposeText"
->
-<strong>You can say what you can't say directly.</strong>
-
-Ask a question, share a thought, make a suggestion, or simply get something off your mind. Type it here and send it anonymously — your identity stays private.
 </div>
 
+<div class="info-box" id="infoBox">
+
+<strong>Ask. Say. Share.</strong>
+
+You can say what you can't say directly.
+Ask a question, share a thought, make a suggestion,
+or simply get something off your mind.
+Send it anonymously — your identity stays private.
+
 </div>
 
+<!-- FORM -->
 
 <div id="form" class="form">
 
@@ -829,12 +817,13 @@ placeholder=""
 type="button"
 class="generate"
 onclick="randomName()"
->↻</button>
+>
+↻
+</button>
 
 </div>
 
 </div>
-
 
 <div class="field">
 
@@ -850,7 +839,6 @@ placeholder=""
 
 </div>
 
-
 <button
 class="send"
 id="send"
@@ -859,21 +847,21 @@ onclick="sendMessage()"
 Send anonymously　→
 </button>
 
-
 <div class="trust">
 
 <div>
 🔒　<b>Your personal information</b><br>
-　　 Your personal information is not collected. Only your anonymous message reaches the receiver.
+　　 Your personal information is not collected.
+Only your anonymous message reaches the receiver.
 </div>
 
 <div>
 🔗　<b>After you send</b><br>
-　　 You'll receive a private anonymous conversation link where you can return and check for the reply.
+　　 You'll receive a private anonymous conversation
+link where you can return and check for the reply.
 </div>
 
 </div>
-
 
 <div class="bottom">
 🔒 Your identity is never revealed.
@@ -881,18 +869,18 @@ Send anonymously　→
 
 </div>
 
-
 <div id="status"></div>
 
 </div>
 
-
 <script>
+
+/* SUPABASE */
 
 const URL="https://merkpcjthrcmjjtlnxkb.supabase.co";
 
-const KEY="sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
-
+const KEY=
+"sb_publishable_IRgNBmjcqMYKeZKpOXyXA_HjJ0OB-H";
 
 const nameInput=
 document.getElementById("name");
@@ -925,27 +913,6 @@ body:"{}"
 ).catch(()=>{});
 
 
-/* PURPOSE BUTTON */
-
-function togglePurpose(){
-
-const button=
-document.getElementById("purposeButton");
-
-const text=
-document.getElementById("purposeText");
-
-const isOpen=
-text.classList.toggle("show");
-
-button.classList.toggle(
-"open",
-isOpen
-);
-
-}
-
-
 /* THEME */
 
 function themeMode(){
@@ -963,15 +930,39 @@ d?"☀":"☾";
 
 }
 
-
 if(
 localStorage.getItem("theme")==="dark"
 ){
 
 document.body.classList.add("dark");
 
-document.getElementById("theme").innerText=
-"☀";
+document.getElementById("theme").innerText="☀";
+
+}
+
+
+/* INFO */
+
+let infoTimer;
+
+function infoClick(){
+
+const box=
+document.getElementById("infoBox");
+
+box.classList.toggle("show");
+
+clearTimeout(infoTimer);
+
+if(box.classList.contains("show")){
+
+infoTimer=setTimeout(()=>{
+
+box.classList.remove("show");
+
+},5000);
+
+}
 
 }
 
@@ -984,42 +975,30 @@ let i=0;
 let back=false;
 let timer;
 
-
 function go(){
 
 if(el.value){
 
 timer=setTimeout(go,150);
+
 return;
 
 }
 
-
-const blink=
-Math.floor(Date.now()/450)%2
-?"│"
-:"";
-
-
 el.placeholder=
-text.slice(0,i)+blink;
-
+text.slice(0,i)+
+(Math.floor(Date.now()/450)%2?"│":"");
 
 if(!back){
 
 i++;
 
-
 if(i>text.length){
 
 i=text.length;
-
 back=true;
 
-timer=setTimeout(
-go,
-1100
-);
+timer=setTimeout(go,1100);
 
 return;
 
@@ -1029,24 +1008,18 @@ return;
 
 i--;
 
-
 if(i<0){
 
 i=0;
-
 back=false;
 
-timer=setTimeout(
-go,
-400
-);
+timer=setTimeout(go,400);
 
 return;
 
 }
 
 }
-
 
 timer=setTimeout(
 go,
@@ -1055,9 +1028,7 @@ back?60:85
 
 }
 
-
 go();
-
 
 el.addEventListener(
 "input",
@@ -1068,7 +1039,6 @@ if(!el.value){
 clearTimeout(timer);
 
 i=0;
-
 back=false;
 
 go();
@@ -1080,12 +1050,10 @@ go();
 
 }
 
-
 typing(
 nameInput,
 "Mysterious Name ✦"
 );
-
 
 typing(
 messageInput,
@@ -1254,7 +1222,7 @@ new Uint8Array(32);
 
 crypto.getRandomValues(b);
 
-return [
+return[
 ...b
 ]
 .map(
@@ -1265,7 +1233,7 @@ x=>x.toString(16).padStart(2,"0")
 }
 
 
-/* SEND MESSAGE */
+/* SEND */
 
 async function sendMessage(){
 
@@ -1274,7 +1242,6 @@ nameInput.value.trim();
 
 const m=
 messageInput.value.trim();
-
 
 if(!n){
 
@@ -1285,7 +1252,6 @@ return;
 
 }
 
-
 if(!m){
 
 statusEl.innerText=
@@ -1295,7 +1261,6 @@ return;
 
 }
 
-
 sendBtn.disabled=true;
 
 sendBtn.innerText=
@@ -1303,10 +1268,7 @@ sendBtn.innerText=
 
 statusEl.innerText="";
 
-
-const t=
-makeToken();
-
+const t=makeToken();
 
 try{
 
@@ -1322,18 +1284,18 @@ headers:{
 },
 
 body:JSON.stringify({
+
 p_name:n,
 p_message:m,
 p_token:t
+
 })
 
 }
 );
 
-
 const data=
 await r.json();
-
 
 if(!r.ok){
 
@@ -1345,9 +1307,6 @@ data.error||
 
 }
 
-
-/* NEW GITHUB PAGES URL */
-
 const link=
 "https://lologin31-svg.github.io/Leave-it-here/conversation.html?token="+
 encodeURIComponent(t);
@@ -1358,13 +1317,12 @@ encodeURIComponent(t);
 form.style.display="none";
 
 
-/* SUCCESS / COPY LINK PAGE */
+/* SUCCESS */
 
 const box=
 document.createElement("div");
 
 box.className="success";
-
 
 box.innerHTML=
 '<div class="check">✓</div>'+
@@ -1372,7 +1330,7 @@ box.innerHTML=
 '<p>Your message is safely on its way.</p>';
 
 
-/* PRIVATE LINK */
+/* LINK */
 
 const l=
 document.createElement("div");
@@ -1384,13 +1342,12 @@ l.innerText=link;
 box.appendChild(l);
 
 
-/* PRIVATE LINK INSTRUCTION */
+/* PRIVATE NOTE */
 
 const note=
 document.createElement("p");
 
-note.className=
-"private-note";
+note.className="private-note";
 
 note.innerText=
 "Keep this private link safe. Paste it into any browser whenever you want to come back and check for replies.";
@@ -1398,7 +1355,7 @@ note.innerText=
 box.appendChild(note);
 
 
-/* COPY BUTTON */
+/* COPY */
 
 const c=
 document.createElement("button");
@@ -1408,9 +1365,7 @@ c.className="copy";
 c.innerText=
 "Copy private link";
 
-
-c.onclick=
-async()=>{
+c.onclick=async()=>{
 
 try{
 
@@ -1433,17 +1388,15 @@ x.remove();
 
 }
 
-
 c.innerText=
 "Copied ✓";
 
 };
 
-
 box.appendChild(c);
 
 
-/* OPEN CONVERSATION */
+/* OPEN */
 
 const o=
 document.createElement("button");
@@ -1453,16 +1406,11 @@ o.className="open";
 o.innerText=
 "Open conversation";
 
-
 o.onclick=()=>{
 location.href=link;
 };
 
-
 box.appendChild(o);
-
-
-/* SHOW COPY LINK PAGE */
 
 statusEl.appendChild(box);
 
@@ -1484,4 +1432,4 @@ sendBtn.innerText=
 </script>
 
 </body>
-   </html>
+</html>
