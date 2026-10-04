@@ -1,197 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anonymous Message</title>
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>Leave it here.</title>
 
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%}
-body{padding:7px;font-family:Arial,sans-serif;color:#171827;display:flex;justify-content:center;background:radial-gradient(circle at 0 5%,#b9a2ffb8,transparent 25%),radial-gradient(circle at 100% 8%,#ffb2dca8,transparent 25%),linear-gradient(145deg,#f5f1ff,#fff7fb,#eff8ff);overflow-x:hidden}
-.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none}.orb,.light,.spark,.p{position:absolute;border-radius:50%}
-.o1{width:170px;height:170px;left:-60px;top:5%;background:#a98cff88;filter:blur(3px);animation:a 9s infinite}.o2{width:190px;height:190px;right:-70px;top:35%;background:#ff9bd288;filter:blur(3px);animation:b 11s infinite}.o3{width:130px;height:130px;left:5%;bottom:-30px;background:#7edbff88;filter:blur(3px);animation:c 10s infinite}
-.l1{width:230px;height:230px;left:15%;top:-80px;background:#c7a7ff55;filter:blur(35px);animation:a 8s infinite}.l2{width:230px;height:230px;right:5%;top:55%;background:#ff9ed955;filter:blur(35px);animation:b 10s infinite}.l3{width:200px;height:200px;left:-50px;bottom:5%;background:#86ddff55;filter:blur(35px);animation:c 9s infinite}
-.aurora{position:absolute;width:150%;height:160px;left:-25%;top:42%;background:linear-gradient(90deg,transparent,#a88aff22,#ff9ed522,#8edcff22,transparent);filter:blur(35px);animation:d 12s infinite}.halo{position:absolute;width:400px;height:400px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:#c9a9ff18;filter:blur(20px);animation:e 6s infinite}
-.p{width:5px;height:5px;background:#d0b0ff;box-shadow:0 0 14px #d0b0ff;animation:f 7s infinite}.p1{left:15%;top:20%}.p2{left:40%;top:8%;animation-delay:1s}.p3{right:12%;top:25%;animation-delay:2s}.p4{right:30%;bottom:20%;animation-delay:3s}.p5{left:25%;bottom:12%;animation-delay:4s}
-@keyframes a{50%{transform:translate(45px,55px) scale(1.15)}}@keyframes b{50%{transform:translate(-50px,-45px) scale(1.12)}}@keyframes c{50%{transform:translate(60px,-35px) scale(1.15)}}@keyframes d{50%{transform:translateX(8%) rotate(-5deg)}}@keyframes e{50%{transform:translate(-50%,-50%) scale(1.15);opacity:.7}}@keyframes f{50%{transform:translate(35px,40px) scale(1.8);opacity:.9}}
 
-.card{position:relative;z-index:2;width:100%;max-width:540px;padding:11px 12px 12px;border-radius:25px;background:#ffffffdd;border:1px solid #fff;box-shadow:0 22px 60px #4a337d24;backdrop-filter:blur(24px)}
-.theme{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;border:1px solid #ddd8eb;background:#fff;color:#333;z-index:3}.theme:before{content:"";position:absolute;inset:-4px;border-radius:50%;padding:2px;background:conic-gradient(#9c7cff,#d66bff,#ff9fd8,#8fdcff,#9c7cff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:r 3s linear infinite}@keyframes r{to{transform:rotate(360deg)}}
-.logo{width:66px;height:66px;margin:auto}.logo svg{width:100%;height:100%}.badge{width:max-content;margin:auto;padding:5px 11px;border-radius:99px;background:#f0ebff;border:1px solid #d9cdfb;color:#514d63;font-size:11.5px;font-weight:bold}.dot{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:#8b68ef}
-h1{text-align:center;margin:9px 0 0;font-size:41px;line-height:.86;letter-spacing:-2.5px}h1 span{display:block;margin-top:3px;background:linear-gradient(90deg,#5368f5,#8150e8,#d24ecb);-webkit-background-clip:text;color:transparent}
-.sub{text-align:center;margin:8px auto 0;color:#565d6d;font-size:13.5px;font-weight:bold}.form{margin-top:12px;padding:12px;border-radius:20px;background:#ffffffee;border:1px solid #fff}.field{margin-bottom:11px}label{display:flex;margin-bottom:4px;font-size:15px;font-weight:bold}.hint{margin:-1px 0 6px 24px;color:#646b7b;font-size:10.8px;font-weight:bold}
-.nameBox{position:relative}.nameBox input{padding-right:55px}input,textarea{width:100%;padding:13px 14px;border-radius:15px;font:700 16px Arial;color:#181a28;outline:0;border:1.5px solid #d5c9f3;background:#faf8ff}input{height:52px}textarea{height:112px;resize:none}
-input:focus,textarea:focus{border-color:#8667e8;box-shadow:0 0 0 4px #8667e81a}input::placeholder,textarea::placeholder{color:#8e91a0}
-.generate{position:absolute;right:7px;top:7px;width:38px;height:38px;padding:0;border-radius:11px;background:#f1edff;border:1px solid #d9cdfb;color:#6852bb;font-size:19px;font-weight:bold}
-.send{width:100%;height:47px;border:0;border-radius:14px;background:linear-gradient(100deg,#171827,#352d5d,#533d91);color:#fff;font-weight:bold;box-shadow:0 10px 23px #362c6433}
-.trust{margin-top:8px;padding:10px 11px;border-radius:15px;background:linear-gradient(135deg,#eeeaff,#fff0f8,#eaf7ff);border:1px solid #ddd5f0;color:#4b5261;font-size:12px;line-height:1.45;font-weight:bold}.trust div+div{margin-top:7px;padding-top:7px;border-top:1px solid #7467972e}.bottom{text-align:center;margin-top:6px;color:#606777;font-size:10.5px;font-weight:bold}
-.success{margin-top:15px;padding:15px;border-radius:18px;background:#fff;border:1px solid #e1e2e8;box-shadow:0 10px 25px #41375f12}.check{width:48px;height:48px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#8a72ee,#d45acb);color:white;font-size:24px;font-weight:bold}.success strong{display:block;text-align:center;margin-top:8px;font-size:18px}.success p{color:#626876;font-size:13px;line-height:1.45}.link{padding:10px;background:#faf9ff;border:1px solid #ddd;border-radius:11px;word-break:break-all;font-size:11px}.copy,.open{width:100%;height:42px;margin-top:8px;border-radius:12px;font-weight:bold}.open{background:#fff;color:#17181b;border:1px solid #ddd;box-shadow:none}
-.dark{color:#f5f2ff;background:radial-gradient(circle at 0 5%,#5b42a866,transparent 28%),linear-gradient(145deg,#0d0c16,#171323,#0c151b)}.dark .card{background:#1b192be8;border-color:#ffffff12}.dark .sub{color:#bcb8c9}.dark .form{background:#1e1c2df5}.dark input,.dark textarea{color:#fff;background:#242132;border-color:#4a4260}.dark .hint{color:#aaa6b6}.dark .trust{background:#292441;border-color:#4b435d;color:#bdb9c8}.dark .bottom{color:#aaa5b5}.dark .success{background:#211f2d;border-color:#40394e}.dark .link{background:#292636;color:#bdb8c7}.dark .open{background:#292636;color:#fff;border-color:#494354}
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#f5f5f7;
+color:#151827;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.page{
+min-height:100vh;
+padding:18px 14px;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+width:100%;
+max-width:560px;
+background:#fff;
+border-radius:26px;
+padding:25px 20px;
+box-shadow:0 12px 35px rgba(0,0,0,.08);
+}
+
+.top{
+text-align:center;
+}
+
+.icon{
+width:82px;
+height:82px;
+margin:auto;
+}
+
+.badge{
+display:inline-block;
+margin-top:8px;
+padding:7px 13px;
+border-radius:30px;
+background:#f1e7ff;
+color:#7041a5;
+font-size:12px;
+font-weight:bold;
+}
+
+h1{
+margin:17px 0 8px;
+font-size:42px;
+line-height:1;
+letter-spacing:-1.5px;
+}
+
+.gradient{
+background:linear-gradient(
+90deg,
+#8d4de8,
+#d15cff,
+#ff79a8
+);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+}
+
+.subtitle{
+font-size:15px;
+line-height:1.45;
+color:#777;
+margin-bottom:24px;
+}
+
+label{
+display:block;
+font-size:15px;
+font-weight:bold;
+margin:17px 0 8px;
+}
+
+.hint{
+font-size:12px;
+color:#888;
+margin-bottom:8px;
+}
+
+.input-wrap{
+position:relative;
+}
+
+input,
+textarea{
+width:100%;
+border:1px solid #ddd;
+background:#fafafa;
+border-radius:16px;
+padding:15px;
+font-size:16px;
+font-family:Arial,Helvetica,sans-serif;
+outline:none;
+}
+
+input{
+padding-right:55px;
+height:54px;
+}
+
+textarea{
+min-height:125px;
+resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+border-color:#b276ef;
+background:#fff;
+}
+
+.generator{
+position:absolute;
+right:7px;
+top:7px;
+width:40px;
+height:40px;
+border:0;
+border-radius:12px;
+background:#151827;
+color:#fff;
+font-size:20px;
+cursor:pointer;
+}
+
+button{
+width:100%;
+height:56px;
+margin-top:15px;
+border:0;
+border-radius:16px;
+background:#151827;
+color:#fff;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:disabled{
+opacity:.6;
+}
+
+.privacy{
+margin-top:20px;
+padding:15px;
+border-radius:17px;
+background:#f7f4fb;
+font-size:12px;
+line-height:1.5;
+color:#666;
+}
+
+.privacy strong{
+display:block;
+color:#222;
+margin-bottom:4px;
+}
+
+.success{
+display:none;
+text-align:center;
+}
+
+.success h2{
+font-size:28px;
+margin:8px 0;
+}
+
+.success p{
+font-size:14px;
+line-height:1.5;
+color:#666;
+}
+
+.linkbox{
+margin-top:15px;
+padding:13px;
+background:#f5f5f7;
+border-radius:14px;
+font-size:12px;
+word-break:break-all;
+color:#555;
+}
+
+.copy{
+margin-top:10px;
+}
+
+.open{
+margin-top:10px;
+}
+
+.status{
+text-align:center;
+font-size:13px;
+margin-top:12px;
+color:#777;
+}
+
+.error{
+color:#d00000;
+}
+
+.theme{
+position:fixed;
+right:15px;
+top:15px;
+width:45px;
+height:45px;
+border-radius:50%;
+border:0;
+background:#151827;
+color:#fff;
+font-size:18px;
+z-index:5;
+}
+
+@keyframes ring{
+
+0%{
+box-shadow:
+0 0 0 2px #ff4d6d,
+0 0 12px #ff4d6d;
+}
+
+33%{
+box-shadow:
+0 0 0 2px #9b5cff,
+0 0 12px #9b5cff;
+}
+
+66%{
+box-shadow:
+0 0 0 2px #36d1dc,
+0 0 12px #36d1dc;
+}
+
+100%{
+box-shadow:
+0 0 0 2px #ff4d6d,
+0 0 12px #ff4d6d;
+}
+
+}
+
+.theme{
+animation:ring 3s linear infinite;
+}
+
+@media(max-width:500px){
+
+h1{
+font-size:38px;
+}
+
+.card{
+padding:22px 17px;
+}
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="bg">
-<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
-<div class="light l1"></div><div class="light l2"></div><div class="light l3"></div>
-<div class="aurora"></div><div class="halo"></div>
-<div class="p p1"></div><div class="p p2"></div><div class="p p3"></div><div class="p p4"></div><div class="p p5"></div>
-</div>
+
+<button
+class="theme"
+onclick="toggleTheme()"
+>
+☾
+</button>
+
+
+<div class="page">
 
 <div class="card">
 
-<button class="theme" id="theme" onclick="themeMode()">☾</button>
 
-<div class="logo">
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-<circle cx="50" cy="48" r="37" fill="#d5a8ff" opacity=".25"/>
-<g stroke="#151827" stroke-width="3.2" stroke-linecap="round">
+<div id="main">
+
+<div class="top">
+
+<div class="icon">
+
+<svg
+viewBox="0 0 100 100"
+xmlns="http://www.w3.org/2000/svg"
+>
+
+<circle
+cx="50"
+cy="48"
+r="37"
+fill="#d5a8ff"
+opacity=".25"
+/>
+
+<g
+stroke="#151827"
+stroke-width="3.2"
+stroke-linecap="round"
+>
+
 <path d="M25 24l-5-5"/>
 <path d="M18 38l-7-1"/>
 <path d="M75 24l5-5"/>
 <path d="M82 38l7-1"/>
 <path d="M28 15l-3-6"/>
 <path d="M72 15l3-6"/>
+
 </g>
-<path d="M27 31C27 20 36 14 50 14c16 0 27 7 27 20v18c0 12-10 20-25 20h-7l-9 8 1-10c-7-4-10-10-10-18z" fill="#151827"/>
-<path d="M51 57c-3-3-12-9-12-16 0-5 3-8 8-8 3 0 5 2 6 5 1-3 4-5 7-5 5 0 8 3 8 8 0 7-9 13-17 16z" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+<path
+d="M27 31C27 20 36 14 50 14c16 0 27 7 27 20v18c0 12-10 20-25 20h-7l-9 8 1-10c-7-4-10-10-10-18z"
+fill="#151827"
+/>
+
+<path
+d="M51 57c-3-3-12-9-12-16 0-5 3-8 8-8 3 0 5 2 6 5 1-3 4-5 7-5 5 0 8 3 8 8 0 7-9 13-17 16z"
+fill="none"
+stroke="#fff"
+stroke-width="3"
+stroke-linecap="round"
+stroke-linejoin="round"
+/>
+
 </svg>
+
 </div>
+
 
 <div class="badge">
-<span class="dot"></span>
-Private &amp; anonymous
+Private & anonymous
 </div>
 
+
 <h1>
-Leave it<span>here.</span>
+Leave it <span class="gradient">here.</span>
 </h1>
 
-<div class="sub">
+
+<div class="subtitle">
 Say what you want without revealing who you are.
 </div>
 
-<div id="form" class="form">
+</div>
 
-<div class="field">
 
-<label>♙ &nbsp;What should we call you?</label>
+<label>
+♙　What should we call you?
+</label>
 
 <div class="hint">
 A nickname is enough — your real name isn't needed.
 </div>
 
-<div class="nameBox">
+
+<div class="input-wrap">
 
 <input
 id="name"
-maxlength="50"
 placeholder=""
+autocomplete="off"
 >
 
 <button
-type="button"
-class="generate"
-onclick="randomName()"
->↻</button>
+class="generator"
+onclick="generateName()"
+>
+↻
+</button>
 
 </div>
 
-</div>
 
-<div class="field">
+<label>
+♡　Your message
+</label>
 
-<label>♡ &nbsp;Your message</label>
 
 <textarea
 id="message"
-maxlength="2000"
 placeholder=""
 ></textarea>
 
-</div>
 
 <button
-class="send"
-id="send"
+id="sendButton"
 onclick="sendMessage()"
 >
 Send anonymously　→
 </button>
 
-<div class="trust">
 
-<div>
-🔒　<b>Your personal information</b><br>
-　　 Your personal information is not collected. Only your anonymous message reaches the receiver.
+<div
+id="status"
+class="status"
+></div>
+
+
+<div class="privacy">
+
+<strong>
+🔒　Your personal information
+</strong>
+
+Your personal information is not collected.
+Only your anonymous message reaches the receiver.
+
+<br><br>
+
+<strong>
+🔗　After you send
+</strong>
+
+Copy this private link and keep it safe.
+Paste it into any browser whenever you want to come back and check for replies.
+
 </div>
 
-<div>
-🔗　<b>After you send</b><br>
-　　 Copy this private link and keep it safe. Paste it into any browser whenever you want to come back and check for replies.
-</div>
 
 </div>
 
-<div class="bottom">
-🔒 Your identity is never revealed.
-</div>
+
+<div
+id="success"
+class="success"
+>
+
+<div class="icon">
+
+<svg
+viewBox="0 0 100 100"
+xmlns="http://www.w3.org/2000/svg"
+>
+
+<circle
+cx="50"
+cy="48"
+r="37"
+fill="#d5a8ff"
+opacity=".25"
+/>
+
+<g
+stroke="#151827"
+stroke-width="3.2"
+stroke-linecap="round"
+>
+
+<path d="M25 24l-5-5"/>
+<path d="M18 38l-7-1"/>
+<path d="M75 24l5-5"/>
+<path d="M82 38l7-1"/>
+<path d="M28 15l-3-6"/>
+<path d="M72 15l3-6"/>
+
+</g>
+
+<path
+d="M27 31C27 20 36 14 50 14c16 0 27 7 27 20v18c0 12-10 20-25 20h-7l-9 8 1-10c-7-4-10-10-10-18z"
+fill="#151827"
+/>
+
+<path
+d="M51 57c-3-3-12-9-12-16 0-5 3-8 8-8 3 0 5 2 6 5 1-3 4-5 7-5 5 0 8 3 8 8 0 7-9 13-17 16z"
+fill="none"
+stroke="#fff"
+stroke-width="3"
+stroke-linecap="round"
+stroke-linejoin="round"
+/>
+
+</svg>
 
 </div>
 
-<div id="status"></div>
+
+<h2>
+Message sent ✓
+</h2>
+
+
+<p>
+Your anonymous message has been delivered.
+</p>
+
+
+<div
+id="privateLink"
+class="linkbox"
+></div>
+
+
+<button
+class="copy"
+onclick="copyLink()"
+>
+Copy private link
+</button>
+
+
+<button
+class="open"
+onclick="openConversation()"
+>
+Open conversation
+</button>
+
+
+<div
+id="copyStatus"
+class="status"
+></div>
 
 </div>
+
+
+</div>
+
+</div>
+
 
 <script>
 
-const URL="https://merkpcjthrcmjjtlnxkb.supabase.co";
 
-const KEY="sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
-
-const nameInput=document.getElementById("name");
-const messageInput=document.getElementById("message");
-const statusEl=document.getElementById("status");
-const sendBtn=document.getElementById("send");
-const form=document.getElementById("form");
+const SUPABASE_URL =
+"https://merkpcjthrcmjjtlnxkb.supabase.co";
 
 
-fetch(URL+"/rest/v1/rpc/log_website_visit",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"apikey":KEY
-},
-body:"{}"
-}).catch(()=>{});
+const SUPABASE_KEY =
+"sb_publishable_IRgNBmjcqMYKeZKZpOXyXA_HjJ0OB-H";
 
 
-function themeMode(){
-
-const d=document.body.classList.toggle("dark");
-
-localStorage.setItem(
-"theme",
-d?"dark":"light"
-);
-
-document.getElementById("theme").innerText=
-d?"☀":"☾";
-
-}
+const nameInput =
+document.getElementById("name");
 
 
-if(localStorage.getItem("theme")==="dark"){
-
-document.body.classList.add("dark");
-
-document.getElementById("theme").innerText="☀";
-
-}
+const messageInput =
+document.getElementById("message");
 
 
-/* TYPEWRITER */
+let privateLink="";
+
+
+/* =========================
+   TYPEWRITER
+========================= */
 
 function typing(el,text){
 
@@ -208,12 +591,14 @@ return;
 
 }
 
-const blink=
+const blink =
 Math.floor(Date.now()/450)%2
-?"│":"";
+?"│"
+:"";
 
-el.placeholder=
+el.placeholder =
 text.slice(0,i)+blink;
+
 
 if(!back){
 
@@ -224,10 +609,7 @@ if(i>text.length){
 i=text.length;
 back=true;
 
-timer=setTimeout(
-go,
-1100
-);
+timer=setTimeout(go,1100);
 
 return;
 
@@ -242,10 +624,7 @@ if(i<0){
 i=0;
 back=false;
 
-timer=setTimeout(
-go,
-400
-);
+timer=setTimeout(go,400);
 
 return;
 
@@ -262,7 +641,10 @@ back?60:85
 
 go();
 
-el.addEventListener("input",()=>{
+
+el.addEventListener(
+"input",
+()=>{
 
 if(!el.value){
 
@@ -275,15 +657,314 @@ go();
 
 }
 
-});
+}
+);
 
 }
 
+
+/* =========================
+   NAME GENERATOR
+========================= */
+
+const names=[
+
+"Mysterious Name ✦",
+"Hidden Soul",
+"Unknown One",
+"Secret Stranger",
+"Silent Voice",
+"Midnight Soul",
+"Anonymous One",
+"Quiet Stranger",
+"Hidden Voice",
+"Unknown Soul",
+"Secret Person",
+"Nameless One",
+"Silent Stranger",
+"Shadow",
+"Moonlight",
+"Unknown",
+"Someone",
+"Just Someone",
+"Secret Voice",
+"Hidden Person"
+
+];
+
+
+function generateName(){
+
+const random =
+names[
+Math.floor(
+Math.random()*names.length
+)
+];
+
+nameInput.value=random;
+
+}
+
+
+/* =========================
+   SEND MESSAGE
+========================= */
+
+async function sendMessage(){
+
+const name =
+nameInput.value.trim()
+||"Mysterious Name ✦";
+
+
+const message =
+messageInput.value.trim();
+
+
+const button =
+document.getElementById("sendButton");
+
+
+const status =
+document.getElementById("status");
+
+
+if(!message){
+
+status.className="status error";
+
+status.innerText=
+"Write a message first.";
+
+return;
+
+}
+
+
+button.disabled=true;
+
+button.innerText=
+"Sending...";
+
+
+status.innerText="";
+
+
+try{
+
+
+const token =
+crypto.randomUUID()
+.replaceAll("-","");
+
+
+const response =
+await fetch(
+
+SUPABASE_URL+
+"/rest/v1/rpc/create_conversation",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+"apikey":
+SUPABASE_KEY,
+
+"Authorization":
+"Bearer "+SUPABASE_KEY
+
+},
+
+body:JSON.stringify({
+
+p_name:name,
+
+p_message:message,
+
+p_token:token
+
+})
+
+}
+
+);
+
+
+const data =
+await response.json();
+
+
+if(!response.ok){
+
+throw new Error(
+
+data.message||
+data.error||
+data.hint||
+"Could not send message."
+
+);
+
+}
+
+
+/*
+   IMPORTANT:
+   Your current GitHub Pages
+   website is /secrets/
+*/
+
+privateLink =
+"https://lologin31-svg.github.io/secrets/conversation.html?token="+
+encodeURIComponent(token);
+
+
+document.getElementById(
+"privateLink"
+).innerText=privateLink;
+
+
+document.getElementById(
+"main"
+).style.display="none";
+
+
+document.getElementById(
+"success"
+).style.display="block";
+
+
+}catch(error){
+
+console.error(error);
+
+status.className="status error";
+
+status.innerText=
+"❌ "+error.message;
+
+button.disabled=false;
+
+button.innerText=
+"Send anonymously　→";
+
+}
+
+}
+
+
+/* =========================
+   COPY LINK
+========================= */
+
+async function copyLink(){
+
+const status =
+document.getElementById(
+"copyStatus"
+);
+
+
+try{
+
+await navigator.clipboard.writeText(
+privateLink
+);
+
+status.innerText=
+"Private link copied ✓";
+
+}catch(error){
+
+status.innerText=
+"Copy failed. Please copy the link manually.";
+
+}
+
+}
+
+
+/* =========================
+   OPEN CONVERSATION
+========================= */
+
+function openConversation(){
+
+if(!privateLink){
+
+return;
+
+}
+
+window.location.href =
+privateLink;
+
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+function toggleTheme(){
+
+document.body.classList.toggle(
+"dark"
+);
+
+if(
+document.body.classList.contains("dark")
+){
+
+document.body.style.background=
+"#11121a";
+
+document.querySelector(
+".card"
+).style.background=
+"#1b1c25";
+
+document.querySelector(
+".card"
+).style.color=
+"#fff";
+
+}else{
+
+document.body.style.background=
+"#f5f5f7";
+
+document.querySelector(
+".card"
+).style.background=
+"#fff";
+
+document.querySelector(
+".card"
+).style.color=
+"#151827";
+
+}
+
+}
+
+
+/* =========================
+   START TYPEWRITER
+========================= */
 
 typing(
 nameInput,
 "Mysterious Name ✦"
 );
+
 
 typing(
 messageInput,
@@ -291,267 +972,43 @@ messageInput,
 );
 
 
-/* RANDOM NAMES */
+/* =========================
+   WEBSITE VISIT
+========================= */
 
-const names=[
-"Quiet Stranger","Hidden Voice","Midnight Soul","Secret Sender","Unknown One",
-"Silent Soul","Curious Stranger","Hidden Heart","Nameless One","Moonlit Voice",
-"Unknown Soul","Secret One","Whispering Soul","Midnight Stranger","Hidden One",
-"Silent Voice","Lost Soul","Mystery Person","Unknown Heart","Secret Voice",
-"Quiet Soul","Hidden Stranger","Nameless Voice","Moonlight Soul","Invisible One",
-"Faded Voice","Dreaming Stranger","Unknown Mind","Secret Heart","Silent Stranger",
-"Hidden Soul","Midnight Voice","Quiet Heart","Mysterious One","Unknown Stranger",
-"Shadow Voice","Secret Soul","Wandering Soul","Hidden Mind","Moonlit Stranger",
-"Silent Heart","Mystery Voice","Nameless Soul","Quiet Voice","Unknown Dreamer",
-"Hidden Dreamer","Midnight Heart","Secret Dreamer","Invisible Voice","Lost Stranger",
-"Moonlit Soul","Faded Soul","Quiet Dreamer","Hidden Dream","Silent Dreamer",
-"Unknown Whisper","Secret Whisper","Midnight Whisper","Hidden Whisper","Quiet Whisper",
-"Mysterious Stranger","Unknown Wanderer","Silent Wanderer","Moonlit Wanderer",
-"Secret Wanderer","Hidden Wanderer","Night Soul","Night Voice","Night Stranger",
-"Velvet Soul","Velvet Voice","Purple Soul","Dreamy Stranger","Mystery Soul",
-"Mystery Heart","Unknown Spirit","Hidden Spirit","Silent Spirit","Quiet Spirit",
-"Secret Spirit","Midnight Spirit","Nameless Spirit","Wandering Voice","Wandering Heart",
-"Lost Voice","Lost Heart","Faded Heart","Faded Stranger","Unknown Dream",
-"Secret Dream","Midnight Dream","Quiet Dream","Moonlight Voice","Moonlight Stranger",
-"Moonlight Heart","Unknown Traveler","Hidden Traveler","Silent Traveler","Quiet Traveler",
-"Nameless Traveler","Mystery Traveler","Dreaming Soul","Dreaming Voice","Dreaming Stranger",
-"Curious Soul","Curious Voice","Curious One","Unknown Listener","Silent Listener",
-"Hidden Listener","Quiet Listener","Secret Listener","Midnight Listener",
-"Anonymous Soul","Anonymous Voice","Anonymous Stranger","Unknown Presence",
-"Hidden Presence","Silent Presence","Quiet Presence","Secret Presence",
-"Mysterious Voice","Mysterious Soul","Mysterious Heart","Mysterious Stranger",
-"Midnight Dreamer","Moonlit Dreamer","Secret Dreamer","Hidden Dreamer","Quiet Dreamer",
-"Silent Dreamer"
-];
+fetch(
 
+SUPABASE_URL+
+"/rest/v1/rpc/log_website_visit",
 
-function randomName(){
-
-nameInput.value=
-names[
-Math.floor(
-Math.random()*names.length
-)
-];
-
-nameInput.focus();
-
-}
-
-
-/* TOKEN */
-
-function makeToken(){
-
-const b=
-new Uint8Array(32);
-
-crypto.getRandomValues(b);
-
-return [...b]
-.map(
-x=>x.toString(16).padStart(2,"0")
-)
-.join("");
-
-}
-
-
-/* SEND MESSAGE */
-
-async function sendMessage(){
-
-const n=
-nameInput.value.trim();
-
-const m=
-messageInput.value.trim();
-
-
-if(!n){
-
-statusEl.innerText=
-"Please enter a name.";
-
-return;
-
-}
-
-if(!m){
-
-statusEl.innerText=
-"Please write a message.";
-
-return;
-
-}
-
-
-sendBtn.disabled=true;
-
-sendBtn.innerText="Sending...";
-
-statusEl.innerText="";
-
-
-const t=
-makeToken();
-
-
-try{
-
-const r=
-await fetch(
-URL+"/rest/v1/rpc/create_conversation",
 {
+
 method:"POST",
 
 headers:{
-"Content-Type":"application/json",
-"apikey":KEY
+
+"Content-Type":
+"application/json",
+
+"apikey":
+SUPABASE_KEY,
+
+"Authorization":
+"Bearer "+SUPABASE_KEY
+
 },
 
-body:JSON.stringify({
-p_name:n,
-p_message:m,
-p_token:t
-})
+body:JSON.stringify({})
 
 }
+
+).catch(
+error=>console.error(
+"Visit logging failed:",
+error
+)
 );
 
-
-const data=
-await r.json();
-
-
-if(!r.ok){
-
-throw Error(
-data.message||
-data.error||
-"Could not send message."
-);
-
-}
-
-
-/*
-IMPORTANT:
-Build the conversation URL relative
-to the current index.html location.
-
-This avoids the old hard-coded
-/anonymous-website/ path.
-*/
-
-const link=
-new URL(
-"conversation.html?token="+
-encodeURIComponent(t),
-window.location.href
-).href;
-
-
-form.style.display="none";
-
-
-const box=
-document.createElement("div");
-
-box.className="success";
-
-box.innerHTML=
-'<div class="check">✓</div>'+
-'<strong>Message sent</strong>'+
-'<p>Your message is safely on its way.</p>';
-
-
-const l=
-document.createElement("div");
-
-l.className="link";
-
-l.innerText=link;
-
-box.appendChild(l);
-
-
-/* COPY */
-
-const c=
-document.createElement("button");
-
-c.className="copy";
-
-c.innerText="Copy private link";
-
-
-c.onclick=async()=>{
-
-try{
-
-await navigator.clipboard.writeText(link);
-
-}catch{
-
-const x=
-document.createElement("textarea");
-
-x.value=link;
-
-document.body.appendChild(x);
-
-x.select();
-
-document.execCommand("copy");
-
-x.remove();
-
-}
-
-c.innerText="Copied ✓";
-
-};
-
-box.appendChild(c);
-
-
-/* OPEN CONVERSATION */
-
-const o=
-document.createElement("button");
-
-o.className="open";
-
-o.innerText="Open conversation";
-
-
-o.onclick=()=>{
-
-window.location.href=link;
-
-};
-
-box.appendChild(o);
-
-
-statusEl.appendChild(box);
-
-
-}catch(e){
-
-statusEl.innerText=
-"❌ "+e.message;
-
-sendBtn.disabled=false;
-
-sendBtn.innerText=
-"Send anonymously　→";
-
-}
-
-}
 
 </script>
 
